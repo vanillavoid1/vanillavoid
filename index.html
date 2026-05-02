@@ -188,8 +188,8 @@
 <script>
     AOS.init({ duration: 1000, once: true });
 
-    // ССЫЛКИ С ПРЯМЫМ ЭКСПОРТОМ ИЗ ТАБЛИЦЫ
-    const SPREADSHEET_ID = '1Jiznh1wKXISgNApmNFa8pTDwaAPPezo tgij3Tf1Os08'.replace(/\s/g, ''); 
+    // ID ТАБЛИЦЫ (ПРОВЕРЕННЫЙ)
+    const SPREADSHEET_ID = '1Jiznh1wKXISgNApmNFa8pTDwaAPPezo-tgij3Tf1Os08'; 
     const URL_PROFILES = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/export?format=csv&gid=1924822211`;
     const URL_MARKET = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/export?format=csv&gid=0`;
 
@@ -201,62 +201,66 @@
     async function fetchData(url, targetId, isProfile) {
         const container = document.getElementById(targetId);
         try {
-            // Добавляем штамп времени для обхода кэша Google
-            const finalUrl = url + `&t=${new Date().getTime()}`;
+            // Анти-кэш штамп
+            const finalUrl = url + `&cachebust=${new Date().getTime()}`;
             
-            const response = await fetch(finalUrl, { cache: "no-store" });
+            const response = await fetch(finalUrl);
             if (!response.ok) throw new Error('Network error');
 
             const data = await response.text();
-            const rows = data.split(/\r?\n/).filter(l => l.trim() !== "").map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
+            // Очистка и разбивка строк
+            const rows = data.split(/\r?\n/).filter(line => line.trim() !== "");
             
             container.innerHTML = ''; 
             let count = 0;
 
             for (let i = 1; i < rows.length; i++) {
-                const row = rows[i].map(val => val ? val.replace(/^"|"$/g, '').trim() : "");
+                // Умная разбивка CSV (учитывает запятые внутри кавычек)
+                const row = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(v => v.replace(/^"|"$/g, '').trim());
                 
-                // Статус: колонка C (индекс 2) для профилей
-                const status = (row[2] || "").toLowerCase();
+                // Статус: для профилей индекс 2, для рынка индекс 5
+                const status = isProfile ? (row[2] || "") : (row[5] || "");
 
-                // Строгая проверка: отображаем только "одобрено"
-                if (status === "одобрено") { 
+                if (status.toLowerCase() === "одобрено") { 
                     count++;
                     if (isProfile) {
                         const nick = row[0];
                         container.innerHTML += `
                             <div class="p-card" data-aos="zoom-in">
-                                <img src="https://mc-heads.net/avatar/${nick}/64" class="p-avatar">
+                                <img src="https://mc-heads.net/avatar/${nick}/64" class="p-avatar" onerror="this.src='https://mc-heads.net/avatar/Steve/64'">
                                 <div class="p-nick">${nick}</div>
                                 <div class="p-info-text">С нами с ${row[1]}</div>
                             </div>`;
                     } else {
-                        // Для объявлений проверяем статус в колонке F (индекс 5)
-                        const marketStatus = (row[5] || "").toLowerCase();
-                        if (marketStatus === "одобрено") {
-                            container.innerHTML += `
-                                <div class="news-card" data-aos="fade-up">
-                                    <span>${row[2]}</span>
-                                    <h3>${row[1]}</h3>
-                                    <p>${row[3]}</p>
-                                    <div style="margin-top: 15px; font-size: 0.75rem; border-top: 1px solid var(--border); padding-top: 10px;">
-                                        Контакт: <b>${row[4]}</b>
-                                    </div>
-                                </div>`;
-                        } else { count--; } // Откат счетчика если рынок не одобрен
+                        container.innerHTML += `
+                            <div class="news-card" data-aos="fade-up">
+                                <span>${row[0]}</span>
+                                <h3>${row[1]}</h3>
+                                <p>${row[2]}</p>
+                                <div style="margin-top: 15px; font-size: 0.75rem; border-top: 1px solid var(--border); padding-top: 10px;">
+                                    Цена: <b>${row[3]}</b><br>
+                                    Контакт: <b>${row[4]}</b>
+                                </div>
+                            </div>`;
                     }
                 }
             }
-            if (count <= 0) container.innerHTML = '<p style="opacity:0.3; padding:20px;">Пока пусто...</p>';
+
+            if (count === 0) {
+                container.innerHTML = '<p style="opacity:0.3; padding:20px; width:100%; text-align:center;">Записей пока нет...</p>';
+            }
         } catch (e) {
-            container.innerHTML = '<p style="color:red;">Ошибка загрузки данных</p>';
+            console.error(e);
+            container.innerHTML = '<p style="color:#ff4444; padding:20px; width:100%; text-align:center;">Ошибка обновления данных</p>';
         }
     }
 
-    loadAllData();
-    setInterval(loadAllData, 120000); // Обновление каждые 2 минуты
+    // Первичная загрузка
+    document.addEventListener('DOMContentLoaded', loadAllData);
+    // Авто-обновление раз в 5 минут
+    setInterval(loadAllData, 300000);
 
-    // --- ПРАВИЛА ---
+    // --- ПРАВИЛА (ОСТАВЛЯЕМ БЕЗ ИЗМЕНЕНИЙ) ---
     const RULES_DATA = {
         main: { h: "Основные правила", b: [{ i: "1.0", t: "Доступ с <b>15 лет</b>." }, { i: "1.1", t: "Согласие с правилами обязательно." }, { i: "1.3", t: "Незнание не освобождает от ответственности." }] },
         game: { h: "Игровой мир", b: [{ i: "2.1", t: "PvP по согласию." }, { i: "2.2", t: "Штраф за кражу (x10-15)." }, { i: "2.3", t: "Гриферство запрещено." }] },
@@ -267,6 +271,7 @@
     };
 
     function load(k, el) {
+        if(!el) return;
         document.querySelectorAll('.r-item').forEach(i => i.classList.remove('active'));
         el.classList.add('active');
         const g = RULES_DATA[k];
@@ -280,16 +285,18 @@
         const t = document.getElementById('ip-text');
         if(t.innerText !== "Coming soon...") {
             navigator.clipboard.writeText(t.innerText);
+            const old = t.innerText;
             t.innerText = "COPIED!";
-            setTimeout(() => { t.innerText = "Coming soon..."; }, 2000);
+            setTimeout(() => { t.innerText = old; }, 2000);
         }
     }
 
+    // ФОНОВАЯ АНИМАЦИЯ
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     let pts = [];
-    function rs() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; pts = []; for(let i=0;i<200;i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*0.8, v:Math.random()*0.5+0.1}); }
-    function dr() { ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle="rgba(255,255,255,0.8)"; pts.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();p.y-=p.v;if(p.y<0)p.y=canvas.height;}); requestAnimationFrame(dr); }
+    function rs() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; pts = []; for(let i=0;i<150;i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*0.8, v:Math.random()*0.3+0.1}); }
+    function dr() { ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle="rgba(255,255,255,0.4)"; pts.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();p.y-=p.v;if(p.y<0)p.y=canvas.height;}); requestAnimationFrame(dr); }
     window.addEventListener('resize', rs); rs(); dr();
 </script>
 </body>
