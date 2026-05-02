@@ -31,6 +31,7 @@
 
         .container { max-width: 1200px; margin: 0 auto; padding: 0 30px; position: relative; z-index: 10; }
 
+        /* --- NAV --- */
         nav {
             position: fixed; top: 0; left: 0; width: 100%; padding: 25px 0;
             z-index: 1000; backdrop-filter: blur(25px); border-bottom: 1px solid var(--border);
@@ -41,6 +42,7 @@
         .nav-links a { text-decoration: none; color: #666; font-size: 0.7rem; font-weight: 800; margin-left: 25px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
         .nav-links a:hover { color: #fff; }
 
+        /* --- HERO --- */
         .hero { min-height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
         .hero h1 { font-family: var(--font-head); font-size: clamp(3rem, 12vw, 9rem); margin: 0; font-weight: 900; letter-spacing: -4px; line-height: 1; }
         .hero-sub { color: #444; font-family: var(--font-head); letter-spacing: 8px; font-size: 0.8rem; margin-top: 20px; text-transform: uppercase; }
@@ -50,22 +52,42 @@
         .ip-val { padding: 0 35px; font-family: var(--font-head); font-weight: 700; font-size: 1rem; }
         .ip-copy { background: #fff; color: #000; padding: 15px 30px; border-radius: 100px; font-weight: 900; font-size: 0.7rem; }
 
+        .links-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 40px; width: 100%; max-width: 900px; }
+        .l-box { background: var(--glass); border: 1px solid var(--border); padding: 22px; border-radius: 18px; text-decoration: none; color: #fff; transition: 0.3s; display: flex; align-items: center; gap: 15px; font-size: 0.8rem; font-weight: 700; backdrop-filter: blur(5px); justify-content: center; }
+        .l-box:hover { background: #fff; color: #000; }
+
         .section-header { margin: 100px 0 40px; font-family: var(--font-head); font-size: 1.8rem; letter-spacing: -1px; display: flex; align-items: center; gap: 20px; }
         .section-header::after { content: ''; flex-grow: 1; height: 1px; background: var(--border); }
 
+        /* --- NEWS --- */
         .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .news-card { background: var(--glass); border: 1px solid var(--border); border-radius: 25px; padding: 35px; backdrop-filter: blur(5px); transition: 0.3s; }
-        .news-card:hover { border-color: rgba(255,255,255,0.2); }
-        .news-card span { font-family: 'JetBrains Mono'; color: #444; font-size: 0.7rem; display: block; margin-bottom: 10px; text-transform: uppercase; }
+        .news-card { background: var(--glass); border: 1px solid var(--border); border-radius: 25px; padding: 35px; backdrop-filter: blur(5px); }
+        .news-card span { font-family: 'JetBrains Mono'; color: #444; font-size: 0.7rem; display: block; margin-bottom: 10px; }
 
+        /* --- PLUGINS --- */
+        .plugins-container { background: var(--glass); border: 1px solid var(--border); border-radius: 40px; padding: 40px; backdrop-filter: blur(10px); }
         .plugin-card { 
             background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 25px; 
             padding: 30px; display: flex; justify-content: space-between; align-items: center; transition: 0.4s; margin-bottom: 20px;
         }
-        .plugin-card:hover { border-color: #fff; transform: translateX(10px); }
-        .btn-plugin { text-decoration: none; color: #000; background: #fff; padding: 12px 25px; border-radius: 12px; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; }
+        .plugin-card:hover { border-color: #fff; background: rgba(255,255,255,0.04); transform: translateX(10px); }
+        .p-info h3 { margin: 0 0 10px; font-family: var(--font-head); font-size: 1.1rem; color: #fff; }
+        .p-info p { margin: 0; color: #777; font-size: 0.85rem; line-height: 1.6; max-width: 750px; }
+        .p-info code { background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono'; color: #ddd; }
+        .btn-plugin { text-decoration: none; color: #000; background: #fff; padding: 12px 25px; border-radius: 12px; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; white-space: nowrap; }
+
+        /* --- RULES UI --- */
+        .rules-ui { background: var(--glass); border: 1px solid var(--border); border-radius: 35px; display: grid; grid-template-columns: 300px 1fr; min-height: 850px; overflow: hidden; margin-bottom: 100px; backdrop-filter: blur(10px); }
+        .rules-sidebar { border-right: 1px solid var(--border); padding: 30px; background: rgba(0,0,0,0.3); }
+        .r-item { padding: 18px; border-radius: 12px; cursor: pointer; color: #444; font-weight: 800; transition: 0.3s; margin-bottom: 8px; font-size: 0.75rem; font-family: var(--font-head); }
+        .r-item.active { background: #fff; color: #000; }
+        .rules-body { padding: 50px; height: 850px; overflow-y: auto; }
+        .rule-block { background: rgba(255,255,255,0.01); border: 1px solid var(--border); border-radius: 15px; padding: 25px; margin-bottom: 15px; line-height: 1.7; color: #ccc; }
+        .rule-block i { font-family: 'JetBrains Mono'; color: #555; font-size: 0.7rem; display: block; margin-bottom: 8px; font-style: normal; }
 
         footer { padding: 80px 0; text-align: center; border-top: 1px solid var(--border); opacity: 0.2; font-size: 0.6rem; letter-spacing: 4px; }
+
+        @media (max-width: 900px) { .rules-ui { grid-template-columns: 1fr; } .rules-sidebar { display: flex; overflow-x: auto; padding: 15px; } .links-grid { grid-template-columns: 1fr; } .plugin-card { flex-direction: column; align-items: flex-start; gap: 20px; } }
     </style>
 </head>
 <body>
@@ -78,20 +100,26 @@
         <a href="#" class="logo">VOID+</a>
         <div class="nav-links">
             <a href="#updates">Новости</a>
-            <a href="#market">Рынок</a>
             <a href="#plugins">Плагины</a>
+            <a href="#protocol">Правила</a>
         </div>
     </div>
 </nav>
 
 <div class="container">
-    <!-- HERO -->
     <section class="hero">
         <h1 data-aos="fade-up">VOID+</h1>
-        <div class="hero-sub" data-aos="fade-up">Vanilla Server Minecraft</div>
-        <div class="ip-wrap" onclick="copyIP()" data-aos="zoom-in">
+        <div class="hero-sub" data-aos="fade-up" data-aos-delay="100">Vanilla Server Minecraft</div>
+        
+        <div class="ip-wrap" onclick="copyIP()" data-aos="zoom-in" data-aos-delay="200">
             <div class="ip-val" id="ip-text">Coming soon...</div>
             <div class="ip-copy">COPY IP</div>
+        </div>
+
+        <div class="links-grid" data-aos="fade-up" data-aos-delay="300">
+            <a href="https://discord.gg/kafGXsKnBD" target="_blank" class="l-box"><i class="fab fa-discord"></i> Discord</a>
+            <a href="https://t.me/VoidVanilaSMP" target="_blank" class="l-box"><i class="fab fa-telegram"></i> Telegram</a>
+            <a href="#plugins" class="l-box"><i class="fas fa-plug"></i> Plugins</a>
         </div>
     </section>
 
@@ -99,24 +127,42 @@
     <div class="section-header" id="updates" data-aos="fade-right">ПОСЛЕДНИЕ СОБЫТИЯ</div>
     <div class="news-grid">
         <div class="news-card" data-aos="fade-up">
-            <span>Новости сервера</span>
-            <h3>Масштабное обновление</h3>
-            <p>Добавлены новые плагины для взаимодействия и кастомизации. Теперь мир стал еще живее.</p>
+            <span>30.04.2026</span>
+            <h3>Масштабное расширение функционала</h3>
+            <p>Добавлена пачка новых плагинов: <b>PatPat</b>, <b>LightMaker</b>, <b>InvisibleFrames</b> и <b>SkinRestorer</b>. Теперь кастомизация персонажа и мира вышла на новый уровень!</p>
+        </div>
+        <div class="news-card" data-aos="fade-up" data-aos-delay="100">
+            <span>29.04.2026</span>
+            <h3>Технические работы</h3>
+            <p>Успешно внедрены <b>GSit</b> и <b>CoreProtect</b>. Настроены расширенные правила сервера для комфортной игры.</p>
         </div>
     </div>
 
-    <!-- ДОСКА ОБЪЯВЛЕНИЙ (АВТОМАТИЧЕСКАЯ) -->
-    <div class="section-header" id="market" data-aos="fade-right">РЫНОК И ОБЪЯВЛЕНИЯ</div>
-    <div id="board-container" class="news-grid" data-aos="fade-up">
-        <div class="news-card"><p>Загрузка объявлений из Telegram...</p></div>
+    <!-- ПЛАГИНЫ -->
+    <div class="section-header" id="plugins" data-aos="fade-right">БИБЛИОТЕКА ПЛАГИНОВ</div>
+    <div class="plugins-container" data-aos="fade-up">
+        <div class="plugin-card"><div class="p-info"><h3>Plasmo Voice</h3><p>Голосовой чат для общения в игре.</p></div><a href="https://plasmovoice.com/" target="_blank" class="btn-plugin">Скачать</a></div>
+        <div class="plugin-card"><div class="p-info"><h3>Enchantment List</h3><p>Список кастомных чар.</p></div><a href="https://nightexpressdev.com/excellentenchants/enchantments/list/" target="_blank" class="btn-plugin">Список</a></div>
+        <div class="plugin-card"><div class="p-info"><h3>GSit</h3><p>Команды <code>/sit</code>, <code>/lay</code>, <code>/crawl</code>.</p></div><a href="https://modrinth.com/plugin/gsit" target="_blank" class="btn-plugin">Скачать</a></div>
+        <div class="plugin-card"><div class="p-info"><h3>CoreProtect</h3><p>Проверка логов <code>/co i</code>.</p></div><a href="https://docs.coreprotect.net/commands/" target="_blank" class="btn-plugin">Инфо</a></div>
+        <div class="plugin-card"><div class="p-info"><h3>PatPat</h3><p>Погладить: <code>Shift+ПКМ</code> на игрока. (Рекомендуем мод в сборку!)</p></div><a href="https://modrinth.com/plugin/patpat" target="_blank" class="btn-plugin">Скачать</a></div>
+        <div class="plugin-card"><div class="p-info"><h3>LightMaker</h3><p>Крафт блока света: Факел + Бутылочка. Регулировка на камнерезе.</p></div><a href="https://modrinth.com/plugin/lightmaker" target="_blank" class="btn-plugin">Скачать</a></div>
+        <div class="plugin-card"><div class="p-info"><h3>InvisibleFrames</h3><p>Невидимые рамки через <code>Shift+ПКМ</code>.</p></div><a href="https://modrinth.com/resourcepack/invisible-item-frames" target="_blank" class="btn-plugin">Скачать</a></div>
+        <div class="plugin-card"><div class="p-info"><h3>SkinRestorer</h3><p>Смена скина: <code>/skin [Ник]</code>, сброс: <code>/skin clear</code>.</p></div><a href="https://skinsrestorer.net/docs" target="_blank" class="btn-plugin">Инфо</a></div>
     </div>
 
-    <!-- ПЛАГИНЫ -->
-    <div class="section-header" id="plugins" data-aos="fade-right">ПЛАГИНЫ</div>
-    <div class="plugins-container" data-aos="fade-up">
-        <!-- Краткий список для примера -->
-        <div class="plugin-card"><div class="p-info"><h3>Plasmo Voice</h3><p>Голосовой чат.</p></div><a href="#" class="btn-plugin">Скачать</a></div>
-        <div class="plugin-card"><div class="p-info"><h3>GSit</h3><p>Команды /sit, /lay.</p></div><a href="#" class="btn-plugin">Инфо</a></div>
+    <!-- РАСШИРЕННЫЕ ПРАВИЛА -->
+    <div class="section-header" id="protocol" data-aos="fade-right">ПРОТОКОЛ ПОВЕДЕНИЯ</div>
+    <div class="rules-ui" data-aos="fade-up">
+        <div class="rules-sidebar">
+            <div class="r-item active" onclick="load('main', this)">ОСНОВНЫЕ</div>
+            <div class="r-item" onclick="load('game', this)">ИГРОВОЙ МИР</div>
+            <div class="r-item" onclick="load('chat', this)">ОБЩЕНИЕ</div>
+            <div class="r-item" onclick="load('terr', this)">ТЕРРИТОРИИ</div>
+            <div class="r-item" onclick="load('acc', this)">АККАУНТЫ</div>
+            <div class="r-item" onclick="load('mods', this)">МОДИФИКАЦИИ</div>
+        </div>
+        <div class="rules-body" id="rules-target"></div>
     </div>
 
     <footer>&copy; 2026 VOID+ SMP • BY YURIY BOBOKALO</footer>
@@ -126,55 +172,52 @@
 <script>
     AOS.init({ duration: 1000, once: true });
 
-    // --- ФУНКЦИЯ ЗАГРУЗКИ ОБЪЯВЛЕНИЙ ---
-    async function loadBoard() {
-        // ВАЖНО: Вставь свой ID таблицы ниже
-        const sheetId = '1Jiznh1wKXISgNApmNFa8pTDwAaPPezotgij3Tf1Os08'; 
-        const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
-        
-        try {
-            const response = await fetch(url);
-            const text = await response.text();
-            const json = JSON.parse(text.substr(47).slice(0, -2));
-            const rows = json.table.rows;
-            const container = document.getElementById('board-container');
-            container.innerHTML = ''; 
+    const RULES_DATA = {
+        main: { h: "Основные правила", b: [
+            { i: "1.0", t: "Доступ на сервер осуществляется игрокам с <b>15 лет</b>." },
+            { i: "1.1", t: "Играя на сервере, вы автоматически соглашаетесь со всеми правилами." },
+            { i: "1.2", t: "Администрация вправе изменять правила в любой момент." },
+            { i: "1.3", t: "Незнание правил не освобождает от ответственности." }
+        ]},
+        game: { h: "Игровой мир", b: [
+            { i: "2.1", t: "PvP разрешено только при обоюдном согласии сторон." },
+            { i: "2.2", t: "За кражу ресурсов налагается штраф (в 10-15 раз превышающий стоимость)." },
+            { i: "2.3", t: "Гриферство строго запрещено. Наказание — тюрьма или бан." },
+            { i: "2.4", t: "Запрещено мешать развитию других игроков без веской причины." }
+        ]},
+        chat: { h: "Правила общения", b: [
+            { i: "3.1", t: "Запрещен спам, флуд и злоупотребление капсом." },
+            { i: "3.2", t: "Оскорбление администрации — моментальный бан." },
+            { i: "3.3", t: "Запрещена реклама сторонних проектов." },
+            { i: "3.5", t: "Кодовое слово для заявки: <b>фембой</b>." }
+        ]},
+        terr: { h: "Территории и города", b: [
+            { i: "4.1", t: "Лимит территории одного города — 500x500 блоков." },
+            { i: "4.2", t: "Запрещена застройка вплотную к другим базам (минимум 100 блоков)." },
+            { i: "4.3", t: "Запрещена постройка лаг-машин и ферм, нагружающих ТПС." }
+        ]},
+        acc: { h: "Правила аккаунтов", b: [
+            { i: "5.1", t: "Запрещена продажа аккаунтов или ресурсов за реальные деньги." },
+            { i: "5.2", t: "Запрещено создание твинков (мультиаккаунтов)." },
+            { i: "5.3", t: "Ответственность за действия на аккаунте несет его владелец." }
+        ]},
+        mods: { h: "Модификации", b: [
+            { i: "6.1", t: "Запрещены чит-клиенты (X-Ray, KillAura, Baritone и др.)." },
+            { i: "6.2", t: "Запрещены моды на авто-строительство и авто-тотемы." },
+            { i: "6.3", t: "Разрешены технические и графические моды (Litematica, Shaders, MiniMap без радара игроков)." }
+        ]}
+    };
 
-            rows.forEach((row, index) => {
-                if (index === 0) return; // Пропускаем заголовок
-                
-                const title = row.c[1]?.v || "Без заголовка";
-                const category = row.c[2]?.v || "Общее";
-                const desc = row.c[3]?.v || "";
-                const contact = row.c[4]?.v || "Не указан";
-                const status = row.c[5]?.v || "";
-
-                // Показываем только те, где статус "Одобрено"
-                if (status.toLowerCase() === "одобрено") {
-                    container.innerHTML += `
-                        <div class="news-card">
-                            <span>${category}</span>
-                            <h3>${title}</h3>
-                            <p>${desc}</p>
-                            <div style="margin-top: 15px; font-size: 0.75rem; color: #fff;">
-                                Контакт: <b style="color: #fff;">${contact}</b>
-                            </div>
-                        </div>
-                    `;
-                }
-            });
-
-            if (container.innerHTML === '') {
-                container.innerHTML = '<div class="news-card"><p>Объявлений пока нет.</p></div>';
-            }
-        } catch (e) {
-            console.error("Ошибка загрузки:", e);
-        }
+    function load(k, el) {
+        document.querySelectorAll('.r-item').forEach(i => i.classList.remove('active'));
+        el.classList.add('active');
+        const g = RULES_DATA[k];
+        let h = `<h2>${g.h}</h2>`;
+        g.b.forEach(r => h += `<div class="rule-block"><i>${r.i}</i>${r.t}</div>`);
+        document.getElementById('rules-target').innerHTML = h;
     }
+    load('main', document.querySelector('.r-item'));
 
-    loadBoard();
-
-    // Фон и копирование IP
     function copyIP() {
         const t = document.getElementById('ip-text');
         if(t.innerText !== "Coming soon...") {
@@ -187,8 +230,8 @@
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     let pts = [];
-    function rs() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; pts = []; for(let i=0;i<150;i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*0.8, v:Math.random()*0.3+0.1}); }
-    function dr() { ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle="rgba(255,255,255,0.4)"; pts.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();p.y-=p.v;if(p.y<0)p.y=canvas.height;}); requestAnimationFrame(dr); }
+    function rs() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; pts = []; for(let i=0;i<200;i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*0.8, v:Math.random()*0.5+0.1}); }
+    function dr() { ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle="rgba(255,255,255,0.8)"; pts.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();p.y-=p.v;if(p.y<0)p.y=canvas.height;}); requestAnimationFrame(dr); }
     window.addEventListener('resize', rs); rs(); dr();
 </script>
 </body>
