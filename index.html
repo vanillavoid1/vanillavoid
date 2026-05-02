@@ -52,7 +52,14 @@
         .ip-val { padding: 0 35px; font-family: var(--font-head); font-weight: 700; font-size: 1rem; }
         .ip-copy { background: #fff; color: #000; padding: 15px 30px; border-radius: 100px; font-weight: 900; font-size: 0.7rem; }
 
-        .links-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 40px; width: 100%; max-width: 900px; }
+        .links-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 15px; 
+            margin-top: 40px; 
+            width: 100%; 
+            max-width: 1000px; 
+        }
         .l-box { background: var(--glass); border: 1px solid var(--border); padding: 22px; border-radius: 18px; text-decoration: none; color: #fff; transition: 0.3s; display: flex; align-items: center; gap: 15px; font-size: 0.8rem; font-weight: 700; backdrop-filter: blur(5px); justify-content: center; }
         .l-box:hover { background: #fff; color: #000; }
 
@@ -128,6 +135,7 @@
         <div class="links-grid" data-aos="fade-up" data-aos-delay="300">
             <a href="https://discord.gg/kafGXsKnBD" target="_blank" class="l-box"><i class="fab fa-discord"></i> Discord</a>
             <a href="https://t.me/VoidVanilaSMP" target="_blank" class="l-box"><i class="fab fa-telegram"></i> Telegram</a>
+            <a href="https://t.me/VoidPlusBot" target="_blank" class="l-box"><i class="fas fa-robot"></i> Telegram-Bot</a>
             <a href="#plugins" class="l-box"><i class="fas fa-plug"></i> Plugins</a>
         </div>
     </section>
@@ -188,7 +196,7 @@
 <script>
     AOS.init({ duration: 1000, once: true });
 
-    // ССЫЛКИ НА ВКЛАДКИ ТАБЛИЦЫ
+    // ССЫЛКИ НА ТАБЛИЦЫ
     const URL_PROFILES = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTEfE3IRzGzlfhaGj2ea2xEgZM0vgdJJyPvt-lE2LnB-7ruVHo31_0M7BjfFxees5V3Ej8ohi-u58tG/pub?gid=1924822211&single=true&output=csv';
     const URL_MARKET = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTEfE3IRzGzlfhaGj2ea2xEgZM0vgdJJyPvt-lE2LnB-7ruVHo31_0M7BjfFxees5V3Ej8ohi-u58tG/pub?gid=0&single=true&output=csv';
 
