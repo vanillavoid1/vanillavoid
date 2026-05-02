@@ -62,7 +62,6 @@
         .news-card:hover { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.03); }
         .news-card span { font-family: 'JetBrains Mono'; color: #444; font-size: 0.7rem; display: block; margin-bottom: 10px; }
 
-        /* Жители */
         .players-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
         .p-card { background: var(--glass); border: 1px solid var(--border); padding: 25px 15px; border-radius: 25px; text-align: center; backdrop-filter: blur(5px); transition: 0.3s; }
         .p-card:hover { border-color: #fff; transform: translateY(-5px); }
@@ -70,7 +69,6 @@
         .p-nick { font-family: var(--font-head); font-size: 0.9rem; font-weight: 700; margin-bottom: 5px; }
         .p-info-text { font-size: 0.65rem; color: #444; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* Плагины */
         .plugins-container { background: var(--glass); border: 1px solid var(--border); border-radius: 40px; padding: 40px; backdrop-filter: blur(10px); }
         .plugin-card { 
             background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 25px; 
@@ -81,7 +79,6 @@
         .p-info p { margin: 0; color: #777; font-size: 0.85rem; line-height: 1.6; max-width: 750px; }
         .btn-plugin { text-decoration: none; color: #000; background: #fff; padding: 12px 25px; border-radius: 12px; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; white-space: nowrap; }
 
-        /* Правила */
         .rules-ui { background: var(--glass); border: 1px solid var(--border); border-radius: 35px; display: grid; grid-template-columns: 300px 1fr; min-height: 850px; overflow: hidden; margin-bottom: 100px; backdrop-filter: blur(10px); }
         .rules-sidebar { border-right: 1px solid var(--border); padding: 30px; background: rgba(0,0,0,0.3); }
         .r-item { padding: 18px; border-radius: 12px; cursor: pointer; color: #444; font-weight: 800; transition: 0.3s; margin-bottom: 8px; font-size: 0.75rem; font-family: var(--font-head); }
@@ -143,7 +140,6 @@
         </div>
     </div>
 
-    <!-- НОВЫЙ БЛОК: ЖИТЕЛИ -->
     <div class="section-header" id="players" data-aos="fade-right">ЖИТЕЛИ СЕРВЕРА</div>
     <div id="profiles-container" class="players-grid">
         <div class="p-card"><p>Загрузка списка...</p></div>
@@ -194,23 +190,31 @@
     async function fetchData(url, targetId, isProfile) {
         const container = document.getElementById(targetId);
         try {
-            const response = await fetch(url + `&t=${Date.now()}`);
+            // Добавляем случайный параметр, чтобы избежать кэша Google
+            const response = await fetch(url + `&nocache=${Date.now()}`);
             const text = await response.text();
-            const rows = text.split('\n').map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
+            
+            // Фильтруем пустые строки и парсим CSV
+            const rows = text.split('\n')
+                             .map(row => row.trim())
+                             .filter(row => row.length > 0)
+                             .map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
             
             let html = '';
             let count = 0;
 
             for (let i = 1; i < rows.length; i++) {
                 const row = rows[i].map(c => c ? c.replace(/^"|"$/g, '').trim() : "");
-                if (row.length < 3) continue;
-
-                const status = row[isProfile ? 2 : 5]?.toLowerCase();
+                
+                // Проверяем статус (3-й столбец для профилей, 6-й для рынка)
+                const statusIdx = isProfile ? 2 : 5;
+                const status = row[statusIdx] ? row[statusIdx].toLowerCase() : "";
 
                 if (status === "одобрено") {
                     count++;
                     if (isProfile) {
                         const nick = row[0];
+                        if(!nick) continue;
                         html += `
                             <div class="p-card" data-aos="zoom-in">
                                 <img src="https://mc-heads.net/avatar/${nick}/64" class="p-avatar" alt="${nick}">
@@ -218,6 +222,7 @@
                                 <div class="p-info-text">С нами с ${row[1]}</div>
                             </div>`;
                     } else {
+                        if(!row[1]) continue;
                         html += `
                             <div class="news-card" data-aos="fade-up">
                                 <span>${row[2]}</span>
@@ -264,7 +269,6 @@
         }
     }
 
-    // ФОНОВЫЙ CANVAS
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     let pts = [];
@@ -272,9 +276,10 @@
     function dr() { ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle="rgba(255,255,255,0.4)"; pts.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();p.y-=p.v;if(p.y<0)p.y=canvas.height;}); requestAnimationFrame(dr); }
     window.addEventListener('resize', rs); rs(); dr();
 
-    // Запуск
     load('main', document.querySelector('.r-item'));
     loadData();
 </script>
+</body>
+</html>
 </body>
 </html>
