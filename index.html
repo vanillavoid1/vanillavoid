@@ -150,7 +150,7 @@
     <div class="section-header" id="plugins" data-aos="fade-right">БИБЛИОТЕКА ПЛАГИНОВ</div>
     <div class="plugins-container" data-aos="fade-up">
         <div class="plugin-card"><div class="p-info"><h3>Plasmo Voice</h3><p>Голосовой чат для общения в игре.</p></div><a href="https://plasmovoice.com/" target="_blank" class="btn-plugin">Скачать</a></div>
-        <div class="plugin-card"><div class="p-info"><h3>Enchantment List</h3><p>Список кастомных чар.</p></div><a href="https://nightexpressdev.com/excellentenchants/enchantments/list/" target="_blank" class="btn-plugin">Список</a></div>
+        <div class="plugin-card"><div class="p-info"><h3>ExcellentEnchants</h3><p>Список кастомных чар.</p></div><a href="https://nightexpressdev.com/excellentenchants/enchantments/list/" target="_blank" class="btn-plugin">Список</a></div>
         <div class="plugin-card"><div class="p-info"><h3>GSit</h3><p>Команды <code>/sit</code>, <code>/lay</code>, <code>/crawl</code>.</p></div><a href="https://modrinth.com/plugin/gsit" target="_blank" class="btn-plugin">Скачать</a></div>
         <div class="plugin-card"><div class="p-info"><h3>CoreProtect</h3><p>Проверка логов <code>/co i</code>.</p></div><a href="https://docs.coreprotect.net/commands/" target="_blank" class="btn-plugin">Инфо</a></div>
         <div class="plugin-card"><div class="p-info"><h3>PatPat</h3><p>Погладить: <code>Shift+ПКМ</code> на игрока.</p></div><a href="https://modrinth.com/plugin/patpat" target="_blank" class="btn-plugin">Скачать</a></div>
@@ -179,82 +179,74 @@
 <script>
     AOS.init({ duration: 1000, once: true });
 
-    // Ссылка с параметром времени для сброса кеша
-    const getUrl = (gid) => `https://docs.google.com/spreadsheets/d/e/2PACX-1vTEfE3IRzGzlfhaGj2ea2xEgZM0vgdJJyPvt-lE2LnB-7ruVHo31_0M7BjfFxees5V3Ej8ohi-u58tG/pub?gid=${gid}&single=true&output=csv&t=${Date.now()}`;
+    // Ссылка на таблицу с анти-кешем
+    const getSheetUrl = (gid) => `https://docs.google.com/spreadsheets/d/e/2PACX-1vTEfE3IRzGzlfhaGj2ea2xEgZM0vgdJJyPvt-lE2LnB-7ruVHo31_0M7BjfFxees5V3Ej8ohi-u58tG/pub?gid=${gid}&single=true&output=csv&t=${Date.now()}`;
 
-    async function loadAllData() {
-        // Очищаем перед загрузкой, чтобы не висели старые данные
-        document.getElementById('profiles-container').innerHTML = '';
-        document.getElementById('board-container').innerHTML = '';
-
-        await fetchData(getUrl('1924822211'), 'profiles-container', true);
-        await fetchData(getUrl('0'), 'board-container', false);
+    async function loadAll() {
+        await fetchData(getSheetUrl('1924822211'), 'profiles-container', true);
+        await fetchData(getSheetUrl('0'), 'board-container', false);
     }
 
     async function fetchData(url, targetId, isProfile) {
-        const target = document.getElementById(targetId);
+        const container = document.getElementById(targetId);
         try {
-            const resp = await fetch(url);
-            const data = await resp.text();
+            const res = await fetch(url);
+            const text = await res.text();
+            const lines = text.split('\n').map(l => l.split(','));
             
-            if (!data || data.includes("<!DOCTYPE")) return;
+            let html = '';
+            let validRowsCount = 0;
 
-            const rows = data.split('\n').map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
-            let htmlBuffer = '';
-            let count = 0;
-
-            for (let i = 1; i < rows.length; i++) {
-                const row = rows[i];
-                const clean = (val) => val ? val.replace(/^"|"$/g, '').trim() : "";
+            for(let i = 1; i < lines.length; i++) {
+                const row = lines[i].map(c => c.replace(/^"|"$/g, '').trim());
                 
                 if (isProfile) {
-                    const nick = clean(row[0]);
-                    const status = clean(row[2]).toLowerCase();
-                    // СТРОГАЯ ПРОВЕРКА: Ник не пустой + Статус "одобрено"
-                    if (nick && nick.length > 1 && status === "одобрено") {
-                        count++;
-                        htmlBuffer += `
+                    const nick = row[0];
+                    const status = row[2]?.toLowerCase();
+                    // Строгая фильтрация пустых строк и неодобренных заявок
+                    if (nick && nick.length > 1 && status === 'одобрено') {
+                        validRowsCount++;
+                        html += `
                             <div class="profile-card" data-aos="zoom-in">
                                 <div class="p-avatar"><img src="https://mc-heads.net/avatar/${nick}/48"></div>
                                 <div class="p-nick">${nick}</div>
-                                <div class="p-date">С нами с ${clean(row[1])}</div>
+                                <div class="p-date">С нами с ${row[1]}</div>
                             </div>`;
                     }
                 } else {
-                    const title = clean(row[1]);
-                    const status = clean(row[5]).toLowerCase();
-                    if (title && title.length > 1 && status === "одобрено") {
-                        count++;
-                        htmlBuffer += `
+                    const title = row[1];
+                    const status = row[5]?.toLowerCase();
+                    if (title && title.length > 1 && status === 'одобрено') {
+                        validRowsCount++;
+                        html += `
                             <div class="news-card" data-aos="fade-up">
-                                <span>${clean(row[2])}</span>
+                                <span>${row[2]}</span>
                                 <h3>${title}</h3>
-                                <p>${clean(row[3])}</p>
+                                <p>${row[3]}</p>
                                 <div style="margin-top:15px; font-size:0.75rem; border-top:1px solid var(--border); padding-top:10px;">
-                                    Контакт: <b>${clean(row[4])}</b>
+                                    Связь: <b>${row[4]}</b>
                                 </div>
                             </div>`;
                     }
                 }
             }
-            target.innerHTML = count > 0 ? htmlBuffer : '<p style="padding:20px; color:#444;">Пока пусто...</p>';
-        } catch (e) { console.error(e); }
+            container.innerHTML = validRowsCount > 0 ? html : '<p style="color:#444; padding:20px;">Записей пока нет...</p>';
+        } catch(e) { console.error(e); }
     }
 
-    const RULES_DATA = {
-        main: { h: "Основные правила", b: [{ i: "1.0", t: "Доступ с <b>15 лет</b>." }, { i: "1.1", t: "Согласие с правилами обязательно." }, { i: "1.3", t: "Незнание не освобождает от ответственности." }] },
+    const RULES = {
+        main: { h: "Основные правила", b: [{ i: "1.0", t: "Доступ с <b>15 лет</b>." }, { i: "1.1", t: "Согласие с правилами обязательно." }, { i: "1.3", t: "Незнание не освобождает." }] },
         game: { h: "Игровой мир", b: [{ i: "2.1", t: "PvP по согласию." }, { i: "2.2", t: "Штраф за кражу (x10-15)." }, { i: "2.3", t: "Гриферство запрещено." }] },
-        chat: { h: "Общение", b: [{ i: "3.1", t: "Без спама." }, { i: "3.2", t: "Оскорбление админов — бан." }, { i: "3.5", t: "Код: <b>фембой</b>." }] },
+        chat: { h: "Общение", b: [{ i: "3.1", t: "Без спама." }, { i: "3.2", t: "Оскорбление администрации — бан." }, { i: "3.5", t: "Код: <b>фембой</b>." }] },
         terr: { h: "Территории", b: [{ i: "4.1", t: "Лимит 500x500." }, { i: "4.3", t: "Без лаг-машин." }] },
         acc: { h: "Аккаунты", b: [{ i: "5.1", t: "Без продажи за реал." }, { i: "5.2", t: "Без твинков." }] },
-        mods: { h: "Моды", b: [{ i: "6.1", t: "Без читов." }, { i: "6.3", t: "Технические моды разрешены." }] }
+        mods: { h: "Модификации", b: [{ i: "6.1", t: "Без читов." }, { i: "6.3", t: "Технические моды разрешены." }] }
     };
 
     function loadTab(k, el) {
-        if(!el) return;
         document.querySelectorAll('.r-item').forEach(i => i.classList.remove('active'));
         el.classList.add('active');
-        const g = RULES_DATA[k];
+        const g = RULES[k];
         let h = `<h2>${g.h}</h2>`;
         g.b.forEach(r => h += `<div class="rule-block"><i>${r.i}</i>${r.t}</div>`);
         document.getElementById('rules-target').innerHTML = h;
@@ -277,7 +269,7 @@
     window.addEventListener('resize', rs); rs(); dr();
 
     loadTab('main', document.querySelector('.r-item'));
-    loadAllData();
+    loadAll();
 </script>
 </body>
 </html>
