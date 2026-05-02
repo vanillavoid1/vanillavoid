@@ -59,10 +59,11 @@
         .section-header { margin: 100px 0 40px; font-family: var(--font-head); font-size: 1.8rem; letter-spacing: -1px; display: flex; align-items: center; gap: 20px; }
         .section-header::after { content: ''; flex-grow: 1; height: 1px; background: var(--border); }
 
-        /* --- NEWS --- */
+        /* --- NEWS & BOARD --- */
         .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .news-card { background: var(--glass); border: 1px solid var(--border); border-radius: 25px; padding: 35px; backdrop-filter: blur(5px); }
-        .news-card span { font-family: 'JetBrains Mono'; color: #444; font-size: 0.7rem; display: block; margin-bottom: 10px; }
+        .news-card { background: var(--glass); border: 1px solid var(--border); border-radius: 25px; padding: 35px; backdrop-filter: blur(5px); transition: 0.3s; }
+        .news-card:hover { border-color: rgba(255,255,255,0.2); }
+        .news-card span { font-family: 'JetBrains Mono'; color: #444; font-size: 0.7rem; display: block; margin-bottom: 10px; text-transform: uppercase; }
 
         /* --- PLUGINS --- */
         .plugins-container { background: var(--glass); border: 1px solid var(--border); border-radius: 40px; padding: 40px; backdrop-filter: blur(10px); }
@@ -100,6 +101,7 @@
         <a href="#" class="logo">VOID+</a>
         <div class="nav-links">
             <a href="#updates">Новости</a>
+            <a href="#market">Объявления</a>
             <a href="#plugins">Плагины</a>
             <a href="#protocol">Правила</a>
         </div>
@@ -138,6 +140,12 @@
         </div>
     </div>
 
+    <!-- ДОСКА ОБЪЯВЛЕНИЙ -->
+    <div class="section-header" id="market" data-aos="fade-right">РЫНОК И ОБЪЯВЛЕНИЯ</div>
+    <div id="board-container" class="news-grid" data-aos="fade-up">
+        <div class="news-card"><p>Загрузка свежих объявлений из Telegram...</p></div>
+    </div>
+
     <!-- ПЛАГИНЫ -->
     <div class="section-header" id="plugins" data-aos="fade-right">БИБЛИОТЕКА ПЛАГИНОВ</div>
     <div class="plugins-container" data-aos="fade-up">
@@ -171,6 +179,51 @@
 <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 <script>
     AOS.init({ duration: 1000, once: true });
+
+    // --- ЛОГИКА ДОСКИ ОБЪЯВЛЕНИЙ ---
+    async function loadBoard() {
+        const sheetId = '1Jiznh1wKXISgNApmNFa8pTDwAaPPezotgij3Tf1Os08'; 
+        const url = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
+        
+        try {
+            const response = await fetch(url);
+            const text = await response.text();
+            const json = JSON.parse(text.substr(47).slice(0, -2));
+            const rows = json.table.rows;
+            const container = document.getElementById('board-container');
+            container.innerHTML = ''; 
+
+            rows.forEach((row, index) => {
+                if (index === 0) return; 
+                
+                const title = row.c[1]?.v || "Без заголовка";
+                const category = row.c[2]?.v || "Общее";
+                const desc = row.c[3]?.v || "";
+                const contact = row.c[4]?.v || "Не указан";
+                const status = row.c[5]?.v || "";
+
+                if (status.toLowerCase() === "одобрено") { 
+                    container.innerHTML += `
+                        <div class="news-card">
+                            <span>${category}</span>
+                            <h3>${title}</h3>
+                            <p>${desc}</p>
+                            <div style="margin-top: 15px; font-size: 0.75rem; color: #fff; border-top: 1px solid var(--border); padding-top: 10px;">
+                                <i class="fa-solid fa-paper-plane" style="margin-right: 5px; opacity: 0.5;"></i> Контакт: <b>${contact}</b>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            if (container.innerHTML === '') {
+                container.innerHTML = '<div class="news-card"><p>Объявлений пока нет.</p></div>';
+            }
+        } catch (e) {
+            console.error("Ошибка загрузки доски:", e);
+        }
+    }
+    loadBoard();
 
     const RULES_DATA = {
         main: { h: "Основные правила", b: [
