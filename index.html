@@ -31,7 +31,6 @@
 
         .container { max-width: 1200px; margin: 0 auto; padding: 0 30px; position: relative; z-index: 10; }
 
-        /* --- NAV --- */
         nav {
             position: fixed; top: 0; left: 0; width: 100%; padding: 25px 0;
             z-index: 1000; backdrop-filter: blur(25px); border-bottom: 1px solid var(--border);
@@ -42,7 +41,6 @@
         .nav-links a { text-decoration: none; color: #666; font-size: 0.7rem; font-weight: 800; margin-left: 25px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
         .nav-links a:hover { color: #fff; }
 
-        /* --- HERO --- */
         .hero { min-height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
         .hero h1 { font-family: var(--font-head); font-size: clamp(3rem, 12vw, 9rem); margin: 0; font-weight: 900; letter-spacing: -4px; line-height: 1; }
         .hero-sub { color: #444; font-family: var(--font-head); letter-spacing: 8px; font-size: 0.8rem; margin-top: 20px; text-transform: uppercase; }
@@ -52,50 +50,40 @@
         .ip-val { padding: 0 35px; font-family: var(--font-head); font-weight: 700; font-size: 1rem; }
         .ip-copy { background: #fff; color: #000; padding: 15px 30px; border-radius: 100px; font-weight: 900; font-size: 0.7rem; }
 
-        .links-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 40px; width: 100%; max-width: 900px; }
-        .l-box { background: var(--glass); border: 1px solid var(--border); padding: 22px; border-radius: 18px; text-decoration: none; color: #fff; transition: 0.3s; display: flex; align-items: center; gap: 15px; font-size: 0.8rem; font-weight: 700; backdrop-filter: blur(5px); justify-content: center; }
-        .l-box:hover { background: #fff; color: #000; }
-
         .section-header { margin: 100px 0 40px; font-family: var(--font-head); font-size: 1.8rem; letter-spacing: -1px; display: flex; align-items: center; gap: 20px; }
         .section-header::after { content: ''; flex-grow: 1; height: 1px; background: var(--border); }
 
-        /* --- CARDS (NEWS & BOARD) --- */
         .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .news-card { background: var(--glass); border: 1px solid var(--border); border-radius: 25px; padding: 35px; backdrop-filter: blur(5px); }
+        .news-card { background: var(--glass); border: 1px solid var(--border); border-radius: 25px; padding: 35px; backdrop-filter: blur(5px); position: relative; overflow: hidden; }
         .news-card span { font-family: 'JetBrains Mono'; color: #444; font-size: 0.7rem; display: block; margin-bottom: 10px; }
 
-        /* --- ЖИТЕЛИ --- */
         .profiles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
         .profile-card { background: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 25px; text-align: center; transition: 0.3s; backdrop-filter: blur(5px); }
         .profile-card:hover { border-color: #fff; transform: translateY(-5px); }
-        .p-avatar { width: 64px; height: 64px; margin: 0 auto 15px; background: #000; border-radius: 12px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); }
+        .p-avatar { width: 64px; height: 64px; margin: 0 auto 15px; background: #000; border-radius: 12px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); overflow: hidden; }
         .p-avatar img { width: 48px; height: 48px; image-rendering: pixelated; }
-        .p-nick { font-family: var(--font-head); font-size: 1rem; font-weight: 700; }
+        .p-nick { font-family: var(--font-head); font-size: 0.9rem; font-weight: 700; }
         .p-date { font-size: 0.6rem; color: #444; margin-top: 5px; text-transform: uppercase; }
 
-        /* --- PLUGINS --- */
         .plugins-container { background: var(--glass); border: 1px solid var(--border); border-radius: 40px; padding: 40px; backdrop-filter: blur(10px); }
         .plugin-card { 
             background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 25px; 
             padding: 30px; display: flex; justify-content: space-between; align-items: center; transition: 0.4s; margin-bottom: 20px;
         }
-        .plugin-card:hover { border-color: #fff; background: rgba(255,255,255,0.04); transform: translateX(10px); }
-        .p-info h3 { margin: 0 0 10px; font-family: var(--font-head); font-size: 1.1rem; color: #fff; }
-        .p-info p { margin: 0; color: #777; font-size: 0.85rem; line-height: 1.6; max-width: 750px; }
-        .btn-plugin { text-decoration: none; color: #000; background: #fff; padding: 12px 25px; border-radius: 12px; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; white-space: nowrap; }
+        .plugin-card:hover { border-color: #fff; transform: translateX(10px); }
+        .p-info h3 { margin: 0 0 10px; font-family: var(--font-head); font-size: 1.1rem; }
+        .p-info p { margin: 0; color: #777; font-size: 0.85rem; line-height: 1.6; }
+        .btn-plugin { text-decoration: none; color: #000; background: #fff; padding: 12px 25px; border-radius: 12px; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; }
 
-        /* --- RULES UI --- */
-        .rules-ui { background: var(--glass); border: 1px solid var(--border); border-radius: 35px; display: grid; grid-template-columns: 300px 1fr; min-height: 850px; overflow: hidden; margin-bottom: 100px; backdrop-filter: blur(10px); }
+        .rules-ui { background: var(--glass); border: 1px solid var(--border); border-radius: 35px; display: grid; grid-template-columns: 300px 1fr; min-height: 700px; overflow: hidden; margin-bottom: 100px; }
         .rules-sidebar { border-right: 1px solid var(--border); padding: 30px; background: rgba(0,0,0,0.3); }
         .r-item { padding: 18px; border-radius: 12px; cursor: pointer; color: #444; font-weight: 800; transition: 0.3s; margin-bottom: 8px; font-size: 0.75rem; font-family: var(--font-head); }
         .r-item.active { background: #fff; color: #000; }
-        .rules-body { padding: 50px; height: 850px; overflow-y: auto; }
+        .rules-body { padding: 50px; height: 700px; overflow-y: auto; }
         .rule-block { background: rgba(255,255,255,0.01); border: 1px solid var(--border); border-radius: 15px; padding: 25px; margin-bottom: 15px; line-height: 1.7; color: #ccc; }
         .rule-block i { font-family: 'JetBrains Mono'; color: #555; font-size: 0.7rem; display: block; margin-bottom: 8px; font-style: normal; }
 
         footer { padding: 80px 0; text-align: center; border-top: 1px solid var(--border); opacity: 0.2; font-size: 0.6rem; letter-spacing: 4px; }
-
-        @media (max-width: 900px) { .rules-ui { grid-template-columns: 1fr; } .rules-sidebar { display: flex; overflow-x: auto; padding: 15px; } .links-grid { grid-template-columns: 1fr; } .plugin-card { flex-direction: column; align-items: flex-start; gap: 20px; } }
     </style>
 </head>
 <body>
@@ -125,60 +113,44 @@
             <div class="ip-val" id="ip-text">Coming soon...</div>
             <div class="ip-copy">COPY IP</div>
         </div>
-
-        <div class="links-grid" data-aos="fade-up" data-aos-delay="300">
-            <a href="https://discord.gg/kafGXsKnBD" target="_blank" class="l-box"><i class="fab fa-discord"></i> Discord</a>
-            <a href="https://t.me/VoidVanilaSMP" target="_blank" class="l-box"><i class="fab fa-telegram"></i> Telegram</a>
-            <a href="#plugins" class="l-box"><i class="fas fa-plug"></i> Plugins</a>
-        </div>
     </section>
 
-    <div class="section-header" id="updates" data-aos="fade-right">ПОСЛЕДНИЕ СОБЫТИЯ</div>
+    <div class="section-header" id="updates">НОВОСТИ</div>
     <div class="news-grid">
         <div class="news-card" data-aos="fade-up">
             <span>30.04.2026</span>
-            <h3>Масштабное расширение функционала</h3>
-            <p>Добавлена пачка новых плагинов: <b>PatPat</b>, <b>LightMaker</b>, <b>InvisibleFrames</b> и <b>SkinRestorer</b>.</p>
-        </div>
-        <div class="news-card" data-aos="fade-up" data-aos-delay="100">
-            <span>29.04.2026</span>
-            <h3>Технические работы</h3>
-            <p>Успешно внедрены <b>GSit</b> и <b>CoreProtect</b>.</p>
+            <h3>Обновление сайта</h3>
+            <p>Система синхронизации с базой данных жителей настроена и работает в реальном времени.</p>
         </div>
     </div>
 
-    <!-- ЖИТЕЛИ -->
-    <div class="section-header" id="players" data-aos="fade-right">ЖИТЕЛИ СЕРВЕРА</div>
+    <!-- ЖИТЕЛИ (ЛИСТ ПРОФИЛИ) -->
+    <div class="section-header" id="players">ЖИТЕЛИ СЕРВЕРА</div>
     <div id="profiles-container" class="profiles-grid">
         <p style="padding:20px; color:#444;">Загрузка списка игроков...</p>
     </div>
 
-    <div class="section-header" id="market" data-aos="fade-right">РЫНОК И ОБЪЯВЛЕНИЯ</div>
+    <!-- ОБЪЯВЛЕНИЯ (ЛИСТ1) -->
+    <div class="section-header" id="market">РЫНОК И ОБЪЯВЛЕНИЯ</div>
     <div id="board-container" class="news-grid">
-        <div class="news-card"><p>Загрузка объявлений...</p></div>
+        <p style="padding:20px; color:#444;">Загрузка рынка...</p>
     </div>
 
-    <div class="section-header" id="plugins" data-aos="fade-right">БИБЛИОТЕКА ПЛАГИНОВ</div>
-    <div class="plugins-container" data-aos="fade-up">
-        <div class="plugin-card"><div class="p-info"><h3>Plasmo Voice</h3><p>Голосовой чат для общения в игре.</p></div><a href="https://plasmovoice.com/" target="_blank" class="btn-plugin">Скачать</a></div>
-        <div class="plugin-card"><div class="p-info"><h3>Enchantment List</h3><p>Список кастомных чар.</p></div><a href="https://nightexpressdev.com/excellentenchants/enchantments/list/" target="_blank" class="btn-plugin">Список</a></div>
-        <div class="plugin-card"><div class="p-info"><h3>GSit</h3><p>Команды <code>/sit</code>, <code>/lay</code>, <code>/crawl</code>.</p></div><a href="https://modrinth.com/plugin/gsit" target="_blank" class="btn-plugin">Скачать</a></div>
-        <div class="plugin-card"><div class="p-info"><h3>CoreProtect</h3><p>Проверка логов <code>/co i</code>.</p></div><a href="https://docs.coreprotect.net/commands/" target="_blank" class="btn-plugin">Инфо</a></div>
-        <div class="plugin-card"><div class="p-info"><h3>PatPat</h3><p>Погладить: <code>Shift+ПКМ</code> на игрока.</p></div><a href="https://modrinth.com/plugin/patpat" target="_blank" class="btn-plugin">Скачать</a></div>
-        <div class="plugin-card"><div class="p-info"><h3>LightMaker</h3><p>Крафт блока света.</p></div><a href="https://modrinth.com/plugin/lightmaker" target="_blank" class="btn-plugin">Скачать</a></div>
-        <div class="plugin-card"><div class="p-info"><h3>InvisibleFrames</h3><p>Невидимые рамки.</p></div><a href="https://modrinth.com/resourcepack/invisible-item-frames" target="_blank" class="btn-plugin">Скачать</a></div>
-        <div class="plugin-card"><div class="p-info"><h3>SkinRestorer</h3><p>Смена скина: <code>/skin [Ник]</code>.</p></div><a href="https://skinsrestorer.net/docs" target="_blank" class="btn-plugin">Инфо</a></div>
+    <div class="section-header" id="plugins">ПЛАГИНЫ</div>
+    <div class="plugins-container">
+        <div class="plugin-card"><div class="p-info"><h3>Plasmo Voice</h3><p>Голосовой чат для общения.</p></div><a href="https://plasmovoice.com/" target="_blank" class="btn-plugin">Инфо</a></div>
+        <div class="plugin-card"><div class="p-info"><h3>GSit</h3><p>Команды /sit, /lay, /crawl.</p></div><a href="https://modrinth.com/plugin/gsit" target="_blank" class="btn-plugin">Инфо</a></div>
+        <div class="plugin-card"><div class="p-info"><h3>PatPat</h3><p>Shift+ПКМ чтобы погладить игрока.</p></div><a href="#" class="btn-plugin">Инфо</a></div>
+        <div class="plugin-card"><div class="p-info"><h3>CoreProtect</h3><p>Проверка логов сундуков и блоков через /co i.</p></div><a href="#" class="btn-plugin">Инфо</a></div>
     </div>
 
-    <div class="section-header" id="protocol" data-aos="fade-right">ПРОТОКОЛ ПОВЕДЕНИЯ</div>
-    <div class="rules-ui" data-aos="fade-up">
+    <div class="section-header" id="protocol">ПРАВИЛА</div>
+    <div class="rules-ui">
         <div class="rules-sidebar">
-            <div class="r-item active" onclick="load('main', this)">ОСНОВНЫЕ</div>
-            <div class="r-item" onclick="load('game', this)">ИГРОВОЙ МИР</div>
-            <div class="r-item" onclick="load('chat', this)">ОБЩЕНИЕ</div>
-            <div class="r-item" onclick="load('terr', this)">ТЕРРИТОРИИ</div>
-            <div class="r-item" onclick="load('acc', this)">АККАУНТЫ</div>
-            <div class="r-item" onclick="load('mods', this)">МОДИФИКАЦИИ</div>
+            <div class="r-item active" onclick="loadTab('main', this)">ОСНОВНЫЕ</div>
+            <div class="r-item" onclick="loadTab('game', this)">МИР</div>
+            <div class="r-item" onclick="loadTab('chat', this)">ЧАТ</div>
+            <div class="r-item" onclick="loadTab('acc', this)">АККАУНТЫ</div>
         </div>
         <div class="rules-body" id="rules-target"></div>
     </div>
@@ -190,91 +162,95 @@
 <script>
     AOS.init({ duration: 1000, once: true });
 
-    // --- УНИКАЛЬНЫЕ ССЫЛКИ ДЛЯ ЛИСТОВ ---
-    // gid=0 - Объявления (первый лист)
-    const MARKET_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTEfE3IRzGzlfhaGj2ea2xEgZM0vgdJJyPvt-lE2LnB-7ruVHo31_0M7BjfFxees5V3Ej8ohi-u58tG/pub?gid=0&single=true&output=csv';
-    // gid=1534015694 - Жители (второй лист)
-    const PROFILES_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTEfE3IRzGzlfhaGj2ea2xEgZM0vgdJJyPvt-lE2LnB-7ruVHo31_0M7BjfFxees5V3Ej8ohi-u58tG/pub?gid=1924822211&single=true&output=csv';
+    // --- НАСТРОЙКИ ТАБЛИЦ ---
+    const cacheBuster = "&cb=" + new Date().getTime();
+    const MARKET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTEfE3IRzGzlfhaGj2ea2xEgZM0vgdJJyPvt-lE2LnB-7ruVHo31_0M7BjfFxees5V3Ej8ohi-u58tG/pub?gid=0&single=true&output=csv' + cacheBuster;
+    const PROFILES_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTEfE3IRzGzlfhaGj2ea2xEgZM0vgdJJyPvt-lE2LnB-7ruVHo31_0M7BjfFxees5V3Ej8ohi-u58tG/pub?gid=1924822211&single=true&output=csv' + cacheBuster;
 
-    async function loadTable(url, targetId, isProfiles) {
+    async function loadSheetsData() {
+        // Загрузка жителей
+        await fetchData(PROFILES_URL, 'profiles-container', true);
+        // Загрузка рынка
+        await fetchData(MARKET_URL, 'board-container', false);
+    }
+
+    async function fetchData(url, targetId, isProfile) {
+        const target = document.getElementById(targetId);
         try {
             const resp = await fetch(url);
             const text = await resp.text();
-            const lines = text.split('\n').map(l => l.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
-            const target = document.getElementById(targetId);
+            const lines = text.split('\n').filter(l => l.trim() !== '');
             target.innerHTML = '';
-            let valid = 0;
-            const fix = (s) => s ? s.replace(/^"|"$/g, '').trim() : "";
+            let count = 0;
 
             for (let i = 1; i < lines.length; i++) {
-                const r = lines[i];
-                if (!r || r.length < 2) continue;
+                const cols = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                const nick = cols[0]?.replace(/"/g, '').trim();
+                const status = cols[2]?.replace(/"/g, '').trim();
 
-                if (isProfiles) {
-                    const nick = fix(r[0]);
-                    if (!nick) continue;
-                    valid++;
-                    target.innerHTML += `
-                        <div class="profile-card" data-aos="zoom-in">
-                            <div class="p-avatar"><img src="https://mc-heads.net/avatar/${nick}/48"></div>
-                            <div class="p-nick">${nick}</div>
-                            <div class="p-date">С нами с ${fix(r[1])}</div>
-                        </div>`;
-                } else {
-                    if (fix(r[5]).toLowerCase() === "одобрено") {
-                        valid++;
+                if (nick && status === "Одобрено") {
+                    count++;
+                    if (isProfile) {
+                        const date = cols[1]?.replace(/"/g, '').trim();
+                        target.innerHTML += `
+                            <div class="profile-card" data-aos="zoom-in">
+                                <div class="p-avatar"><img src="https://mc-heads.net/avatar/${nick}/48"></div>
+                                <div class="p-nick">${nick}</div>
+                                <div class="p-date">С нами с ${date}</div>
+                            </div>`;
+                    } else {
+                        const title = cols[1]?.replace(/"/g, '').trim();
+                        const desc = cols[3]?.replace(/"/g, '').trim();
+                        const contact = cols[4]?.replace(/"/g, '').trim();
                         target.innerHTML += `
                             <div class="news-card" data-aos="fade-up">
-                                <span>${fix(r[2])}</span>
-                                <h3>${fix(r[1])}</h3>
-                                <p>${fix(r[3])}</p>
-                                <div style="margin-top:15px; font-size:0.75rem; border-top:1px solid var(--border); padding-top:10px;">
-                                    Контакт: <b>${fix(r[4])}</b>
-                                </div>
+                                <span>ОБЪЯВЛЕНИЕ</span>
+                                <h3>${title}</h3>
+                                <p>${desc}</p>
+                                <p style="font-size:0.7rem; color:#555; margin-top:10px;">Продавец: <b>${contact}</b></p>
                             </div>`;
                     }
                 }
             }
-            if (!valid) target.innerHTML = '<p style="padding:20px; opacity:0.5;">Тут пока пусто...</p>';
-        } catch (e) { target.innerHTML = '<p>Ошибка подключения.</p>'; }
-    }
-
-    loadTable(MARKET_CSV, 'board-container', false);
-    loadTable(PROFILES_CSV, 'profiles-container', true);
-
-    const RULES_DATA = {
-        main: { h: "Основные правила", b: [{ i: "1.0", t: "Доступ с <b>15 лет</b>." }, { i: "1.1", t: "Согласие обязательно." }, { i: "1.3", t: "Незнание не освобождает." }] },
-        game: { h: "Игровой мир", b: [{ i: "2.1", t: "PvP по согласию." }, { i: "2.2", t: "Штраф за кражу (x10-15)." }, { i: "2.3", t: "Гриф запрещен." }] },
-        chat: { h: "Общение", b: [{ i: "3.1", t: "Без спама." }, { i: "3.2", t: "Оскорбление админов — бан." }, { i: "3.5", t: "Код: <b>фембой</b>." }] },
-        terr: { h: "Территории", b: [{ i: "4.1", t: "Лимит 500x500." }, { i: "4.3", t: "Без лаг-машин." }] },
-        acc: { h: "Аккаунты", b: [{ i: "5.1", t: "Без продажи за реал." }, { i: "5.2", t: "Без твинков." }] },
-        mods: { h: "Моды", b: [{ i: "6.1", t: "Без читов." }, { i: "6.3", t: "Тех. моды разрешены." }] }
-    };
-
-    function load(k, el) {
-        document.querySelectorAll('.r-item').forEach(i => i.classList.remove('active'));
-        el.classList.add('active');
-        const g = RULES_DATA[k];
-        let h = `<h2>${g.h}</h2>`;
-        g.b.forEach(r => h += `<div class="rule-block"><i>${r.i}</i>${r.t}</div>`);
-        document.getElementById('rules-target').innerHTML = h;
-    }
-    load('main', document.querySelector('.r-item'));
-
-    function copyIP() {
-        const t = document.getElementById('ip-text');
-        if(t.innerText !== "Coming soon...") {
-            navigator.clipboard.writeText(t.innerText);
-            t.innerText = "COPIED!";
-            setTimeout(() => { t.innerText = "Coming soon..."; }, 2000);
+            if(count === 0) target.innerHTML = '<p style="color:#333;">Тут пока пусто...</p>';
+        } catch(e) {
+            target.innerHTML = '<p>Ошибка связи с сервером.</p>';
         }
     }
 
+    // --- ПРАВИЛА ---
+    const RULES = {
+        main: { h: "Основные правила", b: ["1.0 Доступ с 15 лет.", "1.1 Соблюдение правил обязательно.", "1.2 Администрация всегда права."] },
+        game: { h: "Игровой мир", b: ["2.1 Гриферство запрещено.", "2.2 PvP только по согласию.", "2.3 Воровство наказывается баном."] },
+        chat: { h: "Общение", b: ["3.1 Без спама и капса.", "3.2 Уважительное отношение.", "3.5 Секретный код: фембой."] },
+        acc: { h: "Аккаунты", b: ["5.1 Один игрок — один аккаунт.", "5.2 Продажа ресурсов за реальные деньги запрещена."] }
+    };
+
+    function loadTab(k, el) {
+        document.querySelectorAll('.r-item').forEach(i => i.classList.remove('active'));
+        el.classList.add('active');
+        const data = RULES[k];
+        let html = `<h2>${data.h}</h2>`;
+        data.b.forEach(txt => { html += `<div class="rule-block">${txt}</div>`; });
+        document.getElementById('rules-target').innerHTML = html;
+    }
+
+    loadTab('main', document.querySelector('.r-item'));
+    loadSheetsData();
+
+    function copyIP() {
+        const btn = document.querySelector('.ip-copy');
+        navigator.clipboard.writeText("play.voidplus.smp"); // Замени на свой IP
+        btn.innerText = "COPIED!";
+        setTimeout(() => { btn.innerText = "COPY IP"; }, 2000);
+    }
+
+    // --- ФОН ---
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     let pts = [];
-    function rs() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; pts = []; for(let i=0;i<200;i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*0.8, v:Math.random()*0.5+0.1}); }
-    function dr() { ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle="rgba(255,255,255,0.8)"; pts.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();p.y-=p.v;if(p.y<0)p.y=canvas.height;}); requestAnimationFrame(dr); }
+    function rs() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; pts = []; for(let i=0;i<150;i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*0.8, v:Math.random()*0.3+0.1}); }
+    function dr() { ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle="rgba(255,255,255,0.4)"; pts.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();p.y-=p.v;if(p.y<0)p.y=canvas.height;}); requestAnimationFrame(dr); }
     window.addEventListener('resize', rs); rs(); dr();
 </script>
 </body>
