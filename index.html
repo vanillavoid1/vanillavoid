@@ -183,28 +183,33 @@
 <script>
     AOS.init({ duration: 1000, once: true });
 
-    // --- ЛОГИКА ТАБЛИЦ (CSV) ---
-    const cb = "&cb=" + new Date().getTime();
-    const MARKET_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTEfE3IRzGzlfhaGj2ea2xEgZM0vgdJJyPvt-lE2LnB-7ruVHo31_0M7BjfFxees5V3Ej8ohi-u58tG/pub?gid=0&single=true&output=csv' + cb;
-    const PROFILES_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTEfE3IRzGzlfhaGj2ea2xEgZM0vgdJJyPvt-lE2LnB-7ruVHo31_0M7BjfFxees5V3Ej8ohi-u58tG/pub?gid=1924822211&single=true&output=csv' + cb;
+    // Функция генерации ссылки с уникальным параметром времени для обхода кеша Google
+    const getUrl = (gid) => `https://docs.google.com/spreadsheets/d/e/2PACX-1vTEfE3IRzGzlfhaGj2ea2xEgZM0vgdJJyPvt-lE2LnB-7ruVHo31_0M7BjfFxees5V3Ej8ohi-u58tG/pub?gid=${gid}&single=true&output=csv&t=${new Date().getTime()}`;
 
     async function loadAllData() {
-        await fetchData(PROFILES_CSV, 'profiles-container', true);
-        await fetchData(MARKET_CSV, 'board-container', false);
+        // Сначала жители, потом рынок
+        await fetchData(getUrl('1924822211'), 'profiles-container', true);
+        await fetchData(getUrl('0'), 'board-container', false);
     }
 
     async function fetchData(url, targetId, isProfile) {
         const target = document.getElementById(targetId);
         try {
             const resp = await fetch(url);
+            if (!resp.ok) throw new Error("HTTP error");
             const data = await resp.text();
+            
+            // Если вместо CSV пришел HTML (ошибка Google), выходим без очистки контейнера
+            if (data.trim().startsWith("<!DOCTYPE")) return;
+
             const rows = data.split('\n').map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
             target.innerHTML = '';
             let count = 0;
 
             for (let i = 1; i < rows.length; i++) {
                 const row = rows[i];
-                if (!row || row.length < 2) continue;
+                if (!row || row.length < 3) continue;
+
                 const clean = (val) => val ? val.replace(/^"|"$/g, '').trim() : "";
                 
                 if (isProfile) {
@@ -222,6 +227,8 @@
                             </div>`;
                     }
                 } else {
+                    if (row.length < 6) continue;
+
                     const title = clean(row[1]);
                     const category = clean(row[2]);
                     const desc = clean(row[3]);
@@ -244,7 +251,8 @@
             }
             if (count === 0) target.innerHTML = '<p style="padding:20px; color:#444;">Пока пусто...</p>';
         } catch (e) {
-            target.innerHTML = '<p style="padding:20px; color:red;">Ошибка загрузки данных.</p>';
+            console.error("Data load failed:", e);
+            // Не очищаем полностью, если была ошибка загрузки
         }
     }
 
