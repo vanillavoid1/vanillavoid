@@ -31,7 +31,7 @@
 
         .container { max-width: 1200px; margin: 0 auto; padding: 0 30px; position: relative; z-index: 10; }
 
-        /* --- NAV --- */
+        /* --- NAVIGATION --- */
         nav {
             position: fixed; top: 0; left: 0; width: 100%; padding: 25px 0;
             z-index: 1000; backdrop-filter: blur(25px); border-bottom: 1px solid var(--border);
@@ -42,7 +42,7 @@
         .nav-links a { text-decoration: none; color: #666; font-size: 0.7rem; font-weight: 800; margin-left: 25px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
         .nav-links a:hover { color: #fff; }
 
-        /* --- HERO --- */
+        /* --- HERO SECTION --- */
         .hero { min-height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
         .hero h1 { font-family: var(--font-head); font-size: clamp(3rem, 12vw, 9rem); margin: 0; font-weight: 900; letter-spacing: -4px; line-height: 1; }
         .hero-sub { color: #444; font-family: var(--font-head); letter-spacing: 8px; font-size: 0.8rem; margin-top: 20px; text-transform: uppercase; }
@@ -59,23 +59,11 @@
         .section-header { margin: 100px 0 40px; font-family: var(--font-head); font-size: 1.8rem; letter-spacing: -1px; display: flex; align-items: center; gap: 20px; }
         .section-header::after { content: ''; flex-grow: 1; height: 1px; background: var(--border); }
 
-        /* --- CARDS --- */
+        /* --- CARDS & GRID --- */
         .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .news-card { background: var(--glass); border: 1px solid var(--border); border-radius: 25px; padding: 35px; backdrop-filter: blur(5px); }
+        .news-card { background: var(--glass); border: 1px solid var(--border); border-radius: 25px; padding: 35px; backdrop-filter: blur(5px); position: relative; overflow: hidden; }
         .news-card span { font-family: 'JetBrains Mono'; color: #444; font-size: 0.7rem; display: block; margin-bottom: 10px; }
-
-        /* --- PLUGINS --- */
-        .plugins-container { background: var(--glass); border: 1px solid var(--border); border-radius: 40px; padding: 40px; backdrop-filter: blur(10px); }
-        .plugin-card { 
-            background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 25px; 
-            padding: 30px; display: flex; justify-content: space-between; align-items: center; transition: 0.4s; margin-bottom: 20px;
-        }
-        .plugin-card:hover { border-color: #fff; background: rgba(255,255,255,0.04); transform: translateX(10px); }
-        .p-info h3 { margin: 0 0 10px; font-family: var(--font-head); font-size: 1.1rem; color: #fff; }
-        .p-info p { margin: 0; color: #777; font-size: 0.85rem; line-height: 1.6; max-width: 750px; }
-        .btn-plugin { text-decoration: none; color: #000; background: #fff; padding: 12px 25px; border-radius: 12px; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; white-space: nowrap; }
-
-        /* --- PLAYERS --- */
+        
         .players-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
         .p-card { background: var(--glass); border: 1px solid var(--border); padding: 25px 15px; border-radius: 25px; text-align: center; backdrop-filter: blur(5px); transition: 0.3s; }
         .p-card:hover { border-color: #fff; transform: translateY(-5px); }
@@ -84,17 +72,17 @@
         .p-info-text { font-size: 0.65rem; color: #444; text-transform: uppercase; letter-spacing: 1px; }
 
         /* --- RULES UI --- */
-        .rules-ui { background: var(--glass); border: 1px solid var(--border); border-radius: 35px; display: grid; grid-template-columns: 300px 1fr; min-height: 850px; overflow: hidden; margin-bottom: 100px; backdrop-filter: blur(10px); }
+        .rules-ui { background: var(--glass); border: 1px solid var(--border); border-radius: 35px; display: grid; grid-template-columns: 300px 1fr; min-height: 600px; overflow: hidden; margin-bottom: 100px; backdrop-filter: blur(10px); }
         .rules-sidebar { border-right: 1px solid var(--border); padding: 30px; background: rgba(0,0,0,0.3); }
         .r-item { padding: 18px; border-radius: 12px; cursor: pointer; color: #444; font-weight: 800; transition: 0.3s; margin-bottom: 8px; font-size: 0.75rem; font-family: var(--font-head); }
         .r-item.active { background: #fff; color: #000; }
-        .rules-body { padding: 50px; height: 850px; overflow-y: auto; }
-        .rule-block { background: rgba(255,255,255,0.01); border: 1px solid var(--border); border-radius: 15px; padding: 25px; margin-bottom: 15px; line-height: 1.7; color: #ccc; }
-        .rule-block i { font-family: 'JetBrains Mono'; color: #555; font-size: 0.7rem; display: block; margin-bottom: 8px; font-style: normal; }
+        .rules-body { padding: 50px; }
+        .rule-block { background: rgba(255,255,255,0.01); border: 1px solid var(--border); border-radius: 15px; padding: 20px; margin-bottom: 10px; line-height: 1.6; color: #ccc; }
+        .rule-block i { font-family: 'JetBrains Mono'; color: #555; font-size: 0.7rem; display: block; margin-bottom: 5px; font-style: normal; }
 
         footer { padding: 80px 0; text-align: center; border-top: 1px solid var(--border); opacity: 0.2; font-size: 0.6rem; letter-spacing: 4px; }
 
-        @media (max-width: 900px) { .rules-ui { grid-template-columns: 1fr; } .rules-sidebar { display: flex; overflow-x: auto; padding: 15px; } .links-grid { grid-template-columns: 1fr; } .plugin-card { flex-direction: column; align-items: flex-start; gap: 20px; } }
+        @media (max-width: 900px) { .rules-ui { grid-template-columns: 1fr; } .rules-sidebar { display: flex; overflow-x: auto; padding: 15px; } .links-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -109,174 +97,155 @@
             <a href="#updates">Новости</a>
             <a href="#players">Жители</a>
             <a href="#market">Объявления</a>
-            <a href="#plugins">Плагины</a>
             <a href="#protocol">Правила</a>
         </div>
     </div>
 </nav>
 
 <div class="container">
+    <!-- HERO -->
     <section class="hero">
         <h1 data-aos="fade-up">VOID+</h1>
-        <div class="hero-sub" data-aos="fade-up" data-aos-delay="100">Vanilla Server Minecraft</div>
+        <div class="hero-sub" data-aos="fade-up" data-aos-delay="100">Official Vanilla SMP</div>
         
         <div class="ip-wrap" onclick="copyIP()" data-aos="zoom-in" data-aos-delay="200">
-            <div class="ip-val" id="ip-text">Coming soon...</div>
+            <div class="ip-val" id="ip-text">VOIDPLUS.COM</div>
             <div class="ip-copy">COPY IP</div>
         </div>
 
         <div class="links-grid" data-aos="fade-up" data-aos-delay="300">
             <a href="https://discord.gg/kafGXsKnBD" target="_blank" class="l-box"><i class="fab fa-discord"></i> Discord</a>
             <a href="https://t.me/VoidVanilaSMP" target="_blank" class="l-box"><i class="fab fa-telegram"></i> Telegram</a>
-            <a href="#plugins" class="l-box"><i class="fas fa-plug"></i> Plugins</a>
+            <a href="https://forms.gle/ваша_ссылка" target="_blank" class="l-box"><i class="fas fa-edit"></i> Подать заявку</a>
         </div>
     </section>
 
-    <div class="section-header" id="updates" data-aos="fade-right">ПОСЛЕДНИЕ СОБЫТИЯ</div>
-    <div class="news-grid">
-        <div class="news-card" data-aos="fade-up">
-            <span>30.04.2026</span>
-            <h3>Масштабное расширение функционала</h3>
-            <p>Добавлена пачка новых плагинов: <b>PatPat</b>, <b>LightMaker</b>, <b>InvisibleFrames</b> и <b>SkinRestorer</b>.</p>
-        </div>
-        <div class="news-card" data-aos="fade-up" data-aos-delay="100">
-            <span>29.04.2026</span>
-            <h3>Технические работы</h3>
-            <p>Успешно внедрены <b>GSit</b> и <b>CoreProtect</b>.</p>
-        </div>
-    </div>
-
+    <!-- PLAYERS -->
     <div class="section-header" id="players" data-aos="fade-right">ЖИТЕЛИ СЕРВЕРА</div>
     <div id="profiles-container" class="players-grid">
-        <div class="p-card"><p>Загрузка жителей...</p></div>
+        <p style="text-align: center; width: 100%; opacity: 0.5;">Синхронизация данных...</p>
     </div>
 
+    <!-- MARKET -->
     <div class="section-header" id="market" data-aos="fade-right">РЫНОК И ОБЪЯВЛЕНИЯ</div>
     <div id="board-container" class="news-grid">
-        <div class="news-card"><p>Загрузка объявлений...</p></div>
+        <p style="text-align: center; width: 100%; opacity: 0.5;">Загрузка торговой площадки...</p>
     </div>
 
-    <!-- Библиотека плагинов и остальное -->
-    <div class="section-header" id="plugins" data-aos="fade-right">БИБЛИОТЕКА ПЛАГИНОВ</div>
-    <div class="plugins-container" data-aos="fade-up">
-        <div class="plugin-card"><div class="p-info"><h3>Plasmo Voice</h3><p>Голосовой чат для общения в игре.</p></div><a href="https://plasmovoice.com/" target="_blank" class="btn-plugin">Скачать</a></div>
-        <div class="plugin-card"><div class="p-info"><h3>GSit</h3><p>Команды <code>/sit</code>, <code>/lay</code>, <code>/crawl</code>.</p></div><a href="https://modrinth.com/plugin/gsit" target="_blank" class="btn-plugin">Скачать</a></div>
-        <div class="plugin-card"><div class="p-info"><h3>PatPat</h3><p>Погладить: <code>Shift+ПКМ</code> на игрока.</p></div><a href="https://modrinth.com/plugin/patpat" target="_blank" class="btn-plugin">Скачать</a></div>
-    </div>
-
+    <!-- RULES -->
     <div class="section-header" id="protocol" data-aos="fade-right">ПРОТОКОЛ ПОВЕДЕНИЯ</div>
     <div class="rules-ui" data-aos="fade-up">
         <div class="rules-sidebar">
-            <div class="r-item active" onclick="load('main', this)">ОСНОВНЫЕ</div>
-            <div class="r-item" onclick="load('game', this)">ИГРОВОЙ МИР</div>
-            <div class="r-item" onclick="load('chat', this)">ОБЩЕНИЕ</div>
+            <div class="r-item active" onclick="loadRule('main', this)">ОСНОВНЫЕ</div>
+            <div class="r-item" onclick="loadRule('game', this)">ИГРОВОЙ МИР</div>
+            <div class="r-item" onclick="loadRule('chat', this)">ОБЩЕНИЕ</div>
         </div>
-        <div class="rules-body" id="rules-target"></div>
+        <div class="rules-body" id="rules-target">
+            <!-- Правила вставятся сюда -->
+        </div>
     </div>
 
-    <footer>&copy; 2026 VOID+ SMP • BY YURIY BOBOKALO</footer>
+    <footer>&copy; 2026 VOID+ SMP • DESIGNED FOR THE COMMUNITY</footer>
 </div>
 
 <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 <script>
     AOS.init({ duration: 1000, once: true });
 
-    // ИСПОЛЬЗУЕМ ФОРМАТ ПУБЛИКАЦИИ /pub?output=csv (Это решает проблему CORS)
-    const SPREADSHEET_ID = '1Jiznh1wKXISgNApmNFa8pTDwaAPPezo-tgij3Tf1Os08'; 
-    const URL_PROFILES = `https://docs.google.com/spreadsheets/d/e/2PACX-1vS6y_99OQ-yN5tGstq-A6f46xV6n6w_T-q5e2P-0h8X3vV-T6w-X5y_G-m6y-N6y-N6y-N6y-N6y-N6y/pub?gid=1924822211&output=csv`;
-    const URL_MARKET = `https://docs.google.com/spreadsheets/d/e/2PACX-1vS6y_99OQ-yN5tGstq-A6f46xV6n6w_T-q5e2P-0h8X3vV-T6w-X5y_G-m6y-N6y-N6y-N6y-N6y-N6y/pub?gid=0&output=csv`;
+    // ССЫЛКИ НА ТВОИ ТАБЛИЦЫ (CSV ФОРМАТ)
+    const URL_PROFILES = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTEfE3IRzGzlfhaGj2ea2xEgZM0vgdJJyPvt-lE2LnB-7ruVHo31_0M7BjfFxees5V3Ej8ohi-u58tG/pub?gid=1924822211&output=csv';
+    const URL_MARKET = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTEfE3IRzGzlfhaGj2ea2xEgZM0vgdJJyPvt-lE2LnB-7ruVHo31_0M7BjfFxees5V3Ej8ohi-u58tG/pub?gid=0&output=csv';
 
-    // Если прямые ссылки e/2PACX выше не сработают (так как они уникальны для публикации), 
-    // мы используем универсальный метод через прокси или проверку статуса публикации.
-    
-    async function loadAllData() {
-        // УНИВЕРСАЛЬНЫЙ ПУТЬ ЧЕРЕЗ EXPORT (если таблица открыта для всех)
-        const exportBase = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/export?format=csv`;
-        await fetchData(`${exportBase}&gid=1924822211`, 'profiles-container', true);
-        await fetchData(`${exportBase}&gid=0`, 'board-container', false);
+    async function loadSheetsData() {
+        await fetchData(URL_PROFILES, 'profiles-container', true);
+        await fetchData(URL_MARKET, 'board-container', false);
     }
 
     async function fetchData(url, targetId, isProfile) {
         const container = document.getElementById(targetId);
         try {
-            // Чтобы обойти CORS в браузере без сервера, иногда нужен прокси. 
-            // Но сначала пробуем чистый fetch с корректными заголовками.
-            const response = await fetch(url);
-            if (!response.ok) throw new Error('CORS or Access Error');
-
+            const response = await fetch(url + '&t=' + new Date().getTime());
+            if (!response.ok) throw new Error();
             const data = await response.text();
-            const rows = data.split(/\r?\n/).filter(line => line.trim() !== "");
             
-            container.innerHTML = ''; 
+            // Парсим строки
+            const rows = data.split(/\r?\n/).filter(row => row.trim() !== "");
+            container.innerHTML = '';
             let count = 0;
 
             for (let i = 1; i < rows.length; i++) {
-                const row = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(v => v.replace(/^"|"$/g, '').trim());
-                const status = isProfile ? (row[2] || "") : (row[5] || "");
+                // Улучшенный парсинг CSV (учитывает запятые внутри кавычек)
+                const cols = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(v => v.replace(/^"|"$/g, '').trim());
+                
+                const status = isProfile ? (cols[2] || "") : (cols[5] || "");
 
-                if (status.toLowerCase() === "одобрено") { 
+                if (status.toLowerCase() === "одобрено") {
                     count++;
                     if (isProfile) {
-                        const nick = row[0];
+                        const nick = cols[0];
                         container.innerHTML += `
                             <div class="p-card" data-aos="zoom-in">
                                 <img src="https://mc-heads.net/avatar/${nick}/64" class="p-avatar" onerror="this.src='https://mc-heads.net/avatar/Steve/64'">
                                 <div class="p-nick">${nick}</div>
-                                <div class="p-info-text">Житель с ${row[1]}</div>
+                                <div class="p-info-text">Участник с ${cols[1]}</div>
                             </div>`;
                     } else {
                         container.innerHTML += `
                             <div class="news-card" data-aos="fade-up">
-                                <span>${row[0]}</span>
-                                <h3>${row[1]}</h3>
-                                <p>${row[2]}</p>
-                                <div style="margin-top: 10px; font-size: 0.7rem; opacity: 0.6;">Контакт: ${row[4]}</div>
+                                <span>${cols[0]}</span>
+                                <h3>${cols[1]}</h3>
+                                <p>${cols[2]}</p>
+                                <div style="margin-top:15px; padding-top:10px; border-top:1px solid var(--border); font-size:0.7rem; opacity:0.8;">
+                                    <b>Цена:</b> ${cols[3]}<br>
+                                    <b>Связь:</b> ${cols[4]}
+                                </div>
                             </div>`;
                     }
                 }
             }
-            if (count === 0) container.innerHTML = '<p style="opacity:0.3;text-align:center;width:100%;">Записей нет</p>';
+            if (count === 0) container.innerHTML = '<p style="opacity:0.3; text-align:center; width:100%;">Пока записей нет</p>';
         } catch (e) {
-            // ФОЛБЭК: Если Google блокирует запрос, выводим инструкцию
-            container.innerHTML = `<p style="color:#666;font-size:0.8rem;text-align:center;width:100%;">
-                Для работы данных убедитесь, что в Google Таблице выбрано:<br>
-                <b>Файл -> Поделиться -> Опубликовать в интернете</b>
-            </p>`;
+            container.innerHTML = '<p style="color:red; text-align:center; width:100%;">Ошибка доступа к данным</p>';
         }
     }
 
-    document.addEventListener('DOMContentLoaded', loadAllData);
-
-    // --- ПРАВИЛА ---
-    const RULES_DATA = {
-        main: { h: "Основные правила", b: [{ i: "1.0", t: "Доступ с 15 лет." }, { i: "1.1", t: "Адекватность обязательна." }] },
-        game: { h: "Игровой мир", b: [{ i: "2.1", t: "Гриф запрещен." }, { i: "2.2", t: "Воровство = бан." }] },
-        chat: { h: "Общение", b: [{ i: "3.1", t: "Без спама." }] }
+    // --- ПРАВИЛА (КОНТЕНТ) ---
+    const RULES = {
+        main: { h: "Основные правила", b: [{i:"1.0", t:"Возрастное ограничение 15+ (есть исключения)."}, {i:"1.1", t:"Запрещено любое использование стороннего ПО (читы, X-Ray)."}] },
+        game: { h: "Игровой мир", b: [{i:"2.1", t:"Гриферство и кражи запрещены в любом виде."}, {i:"2.2", t:"Запрещено беспричинное убийство игроков (RDM)."}] },
+        chat: { h: "Общение", b: [{i:"3.1", t:"Запрещен спам, капс и оскорбления в глобальном чате."}] }
     };
 
-    function load(k, el) {
+    function loadRule(key, el) {
         document.querySelectorAll('.r-item').forEach(i => i.classList.remove('active'));
         el.classList.add('active');
-        const g = RULES_DATA[k];
-        let h = `<h2>${g.h}</h2>`;
-        g.b.forEach(r => h += `<div class="rule-block"><i>${r.i}</i>${r.t}</div>`);
-        document.getElementById('rules-target').innerHTML = h;
+        const data = RULES[key];
+        let html = `<h2>${data.h}</h2>`;
+        data.b.forEach(r => html += `<div class="rule-block"><i>Пункт ${r.i}</i>${r.t}</div>`);
+        document.getElementById('rules-target').innerHTML = html;
     }
-    load('main', document.querySelector('.r-item'));
+
+    // Инициализация
+    window.onload = () => {
+        loadSheetsData();
+        loadRule('main', document.querySelector('.r-item'));
+    };
 
     function copyIP() {
-        const t = document.getElementById('ip-text');
-        navigator.clipboard.writeText("voidplus.com"); // Пример
-        t.innerText = "COPIED!";
-        setTimeout(() => { t.innerText = "Coming soon..."; }, 2000);
+        const btn = document.querySelector('.ip-copy');
+        navigator.clipboard.writeText("voidplus.com");
+        btn.innerText = "COPIED!";
+        setTimeout(() => btn.innerText = "COPY IP", 2000);
     }
 
+    // ФОНОВЫЕ ЧАСТИЦЫ
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     let pts = [];
-    function rs() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; pts = []; for(let i=0;i<100;i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*0.8, v:Math.random()*0.2+0.1}); }
-    function dr() { ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle="rgba(255,255,255,0.3)"; pts.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();p.y-=p.v;if(p.y<0)p.y=canvas.height;}); requestAnimationFrame(dr); }
-    window.addEventListener('resize', rs); rs(); dr();
+    function rs() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; pts = []; for(let i=0;i<60;i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*1, v:Math.random()*0.3+0.1}); }
+    function dr() { ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle="rgba(255,255,255,0.2)"; pts.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();p.y-=p.v;if(p.y<0)p.y=canvas.height;}); requestAnimationFrame(dr); }
+    window.onresize = rs; rs(); dr();
 </script>
+
 </body>
 </html>
