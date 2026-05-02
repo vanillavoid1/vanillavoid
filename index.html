@@ -183,27 +183,42 @@
 <script>
     AOS.init({ duration: 1000, once: true });
 
-    // Функция генерации ссылки с уникальным параметром времени для обхода кеша Google
-    const getUrl = (gid) => `https://docs.google.com/spreadsheets/d/e/2PACX-1vTEfE3IRzGzlfhaGj2ea2xEgZM0vgdJJyPvt-lE2LnB-7ruVHo31_0M7BjfFxees5V3Ej8ohi-u58tG/pub?gid=${gid}&single=true&output=csv&t=${new Date().getTime()}`;
+    // Функция генерации ссылки с защитой от кеша
+    const getUrl = (gid) => `https://docs.google.com/spreadsheets/d/e/2PACX-1vTEfE3IRzGzlfhaGj2ea2xEgZM0vgdJJyPvt-lE2LnB-7ruVHo31_0M7BjfFxees5V3Ej8ohi-u58tG/pub?gid=${gid}&single=true&output=csv&t=${Date.now()}`;
 
+    // Загрузка данных строго ПО ОЧЕРЕДИ
     async function loadAllData() {
-        // Сначала жители, потом рынок
-        await fetchData(getUrl('1924822211'), 'profiles-container', true);
-        await fetchData(getUrl('0'), 'board-container', false);
+        try {
+            // Сначала жители
+            const profilesOk = await fetchData(getUrl('1924822211'), 'profiles-container', true);
+            // Только потом рынок (через небольшую паузу 300мс для надежности)
+            setTimeout(async () => {
+                await fetchData(getUrl('0'), 'board-container', false);
+            }, 300);
+        } catch (e) {
+            console.error("Critical Load Error", e);
+        }
     }
 
     async function fetchData(url, targetId, isProfile) {
         const target = document.getElementById(targetId);
         try {
             const resp = await fetch(url);
-            if (!resp.ok) throw new Error("HTTP error");
+            if (!resp.ok) return false;
+            
             const data = await resp.text();
             
-            // Если вместо CSV пришел HTML (ошибка Google), выходим без очистки контейнера
-            if (data.trim().startsWith("<!DOCTYPE")) return;
+            // Если Google вернул ошибку или HTML — ничего не меняем
+            if (!data || data.trim().length < 10 || data.includes("<!DOCTYPE")) {
+                return false; 
+            }
 
             const rows = data.split('\n').map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
-            target.innerHTML = '';
+            
+            // Если в таблице только шапка или она пуста — не очищаем экран
+            if (rows.length < 2) return false;
+
+            let htmlBuffer = '';
             let count = 0;
 
             for (let i = 1; i < rows.length; i++) {
@@ -219,7 +234,7 @@
 
                     if (nick && status === "одобрено") {
                         count++;
-                        target.innerHTML += `
+                        htmlBuffer += `
                             <div class="profile-card" data-aos="zoom-in">
                                 <div class="p-avatar"><img src="https://mc-heads.net/avatar/${nick}/48"></div>
                                 <div class="p-nick">${nick}</div>
@@ -228,7 +243,6 @@
                     }
                 } else {
                     if (row.length < 6) continue;
-
                     const title = clean(row[1]);
                     const category = clean(row[2]);
                     const desc = clean(row[3]);
@@ -237,7 +251,7 @@
 
                     if (title && status === "одобрено") {
                         count++;
-                        target.innerHTML += `
+                        htmlBuffer += `
                             <div class="news-card" data-aos="fade-up">
                                 <span>${category}</span>
                                 <h3>${title}</h3>
@@ -249,10 +263,18 @@
                     }
                 }
             }
-            if (count === 0) target.innerHTML = '<p style="padding:20px; color:#444;">Пока пусто...</p>';
+
+            // Рендерим только если нашли хоть одну одобренную запись
+            if (count > 0) {
+                target.innerHTML = htmlBuffer;
+                return true;
+            } else {
+                target.innerHTML = '<p style="padding:20px; color:#444;">Пока пусто...</p>';
+                return true;
+            }
         } catch (e) {
-            console.error("Data load failed:", e);
-            // Не очищаем полностью, если была ошибка загрузки
+            console.warn("Fetch failed for " + targetId, e);
+            return false;
         }
     }
 
