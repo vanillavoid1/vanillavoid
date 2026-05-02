@@ -142,14 +142,10 @@
     </div>
 
     <div class="section-header" id="players" data-aos="fade-right">ЖИТЕЛИ СЕРВЕРА</div>
-    <div id="profiles-container" class="profiles-grid">
-        <p style="padding:20px; color:#444;">Загрузка жителей...</p>
-    </div>
+    <div id="profiles-container" class="profiles-grid"></div>
 
     <div class="section-header" id="market" data-aos="fade-right">РЫНОК И ОБЪЯВЛЕНИЯ</div>
-    <div id="board-container" class="news-grid">
-        <p style="padding:20px; color:#444;">Загрузка объявлений...</p>
-    </div>
+    <div id="board-container" class="news-grid"></div>
 
     <div class="section-header" id="plugins" data-aos="fade-right">БИБЛИОТЕКА ПЛАГИНОВ</div>
     <div class="plugins-container" data-aos="fade-up">
@@ -183,99 +179,66 @@
 <script>
     AOS.init({ duration: 1000, once: true });
 
-    // Функция генерации ссылки с защитой от кеша
+    // Ссылка с параметром времени для сброса кеша
     const getUrl = (gid) => `https://docs.google.com/spreadsheets/d/e/2PACX-1vTEfE3IRzGzlfhaGj2ea2xEgZM0vgdJJyPvt-lE2LnB-7ruVHo31_0M7BjfFxees5V3Ej8ohi-u58tG/pub?gid=${gid}&single=true&output=csv&t=${Date.now()}`;
 
-    // Загрузка данных строго ПО ОЧЕРЕДИ
     async function loadAllData() {
-        try {
-            // Сначала жители
-            const profilesOk = await fetchData(getUrl('1924822211'), 'profiles-container', true);
-            // Только потом рынок (через небольшую паузу 300мс для надежности)
-            setTimeout(async () => {
-                await fetchData(getUrl('0'), 'board-container', false);
-            }, 300);
-        } catch (e) {
-            console.error("Critical Load Error", e);
-        }
+        // Очищаем перед загрузкой, чтобы не висели старые данные
+        document.getElementById('profiles-container').innerHTML = '';
+        document.getElementById('board-container').innerHTML = '';
+
+        await fetchData(getUrl('1924822211'), 'profiles-container', true);
+        await fetchData(getUrl('0'), 'board-container', false);
     }
 
     async function fetchData(url, targetId, isProfile) {
         const target = document.getElementById(targetId);
         try {
             const resp = await fetch(url);
-            if (!resp.ok) return false;
-            
             const data = await resp.text();
             
-            // Если Google вернул ошибку или HTML — ничего не меняем
-            if (!data || data.trim().length < 10 || data.includes("<!DOCTYPE")) {
-                return false; 
-            }
+            if (!data || data.includes("<!DOCTYPE")) return;
 
             const rows = data.split('\n').map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
-            
-            // Если в таблице только шапка или она пуста — не очищаем экран
-            if (rows.length < 2) return false;
-
             let htmlBuffer = '';
             let count = 0;
 
             for (let i = 1; i < rows.length; i++) {
                 const row = rows[i];
-                if (!row || row.length < 3) continue;
-
                 const clean = (val) => val ? val.replace(/^"|"$/g, '').trim() : "";
                 
                 if (isProfile) {
                     const nick = clean(row[0]);
-                    const date = clean(row[1]);
                     const status = clean(row[2]).toLowerCase();
-
-                    if (nick && status === "одобрено") {
+                    // СТРОГАЯ ПРОВЕРКА: Ник не пустой + Статус "одобрено"
+                    if (nick && nick.length > 1 && status === "одобрено") {
                         count++;
                         htmlBuffer += `
                             <div class="profile-card" data-aos="zoom-in">
                                 <div class="p-avatar"><img src="https://mc-heads.net/avatar/${nick}/48"></div>
                                 <div class="p-nick">${nick}</div>
-                                <div class="p-date">С нами с ${date}</div>
+                                <div class="p-date">С нами с ${clean(row[1])}</div>
                             </div>`;
                     }
                 } else {
-                    if (row.length < 6) continue;
                     const title = clean(row[1]);
-                    const category = clean(row[2]);
-                    const desc = clean(row[3]);
-                    const contact = clean(row[4]);
                     const status = clean(row[5]).toLowerCase();
-
-                    if (title && status === "одобрено") {
+                    if (title && title.length > 1 && status === "одобрено") {
                         count++;
                         htmlBuffer += `
                             <div class="news-card" data-aos="fade-up">
-                                <span>${category}</span>
+                                <span>${clean(row[2])}</span>
                                 <h3>${title}</h3>
-                                <p>${desc}</p>
+                                <p>${clean(row[3])}</p>
                                 <div style="margin-top:15px; font-size:0.75rem; border-top:1px solid var(--border); padding-top:10px;">
-                                    Контакт: <b>${contact}</b>
+                                    Контакт: <b>${clean(row[4])}</b>
                                 </div>
                             </div>`;
                     }
                 }
             }
-
-            // Рендерим только если нашли хоть одну одобренную запись
-            if (count > 0) {
-                target.innerHTML = htmlBuffer;
-                return true;
-            } else {
-                target.innerHTML = '<p style="padding:20px; color:#444;">Пока пусто...</p>';
-                return true;
-            }
-        } catch (e) {
-            console.warn("Fetch failed for " + targetId, e);
-            return false;
-        }
+            target.innerHTML = count > 0 ? htmlBuffer : '<p style="padding:20px; color:#444;">Пока пусто...</p>';
+        } catch (e) { console.error(e); }
     }
 
     const RULES_DATA = {
