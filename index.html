@@ -59,12 +59,12 @@
         .section-header { margin: 100px 0 40px; font-family: var(--font-head); font-size: 1.8rem; letter-spacing: -1px; display: flex; align-items: center; gap: 20px; }
         .section-header::after { content: ''; flex-grow: 1; height: 1px; background: var(--border); }
 
-        /* --- CARDS --- */
+        /* --- CARDS (NEWS & BOARD) --- */
         .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
         .news-card { background: var(--glass); border: 1px solid var(--border); border-radius: 25px; padding: 35px; backdrop-filter: blur(5px); }
         .news-card span { font-family: 'JetBrains Mono'; color: #444; font-size: 0.7rem; display: block; margin-bottom: 10px; }
 
-        /* --- PROFILES --- */
+        /* --- ПРОФИЛИ ЖИТЕЛЕЙ (ДОБАВЛЕНО) --- */
         .profiles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
         .profile-card { background: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 25px; text-align: center; transition: 0.3s; backdrop-filter: blur(5px); }
         .profile-card:hover { border-color: #fff; transform: translateY(-5px); }
@@ -110,6 +110,7 @@
             <a href="#updates">Новости</a>
             <a href="#players">Жители</a>
             <a href="#market">Объявления</a>
+            <a href="#plugins">Плагины</a>
             <a href="#protocol">Правила</a>
         </div>
     </div>
@@ -132,7 +133,6 @@
         </div>
     </section>
 
-    <!-- НОВОСТИ (РУЧНОЙ ВВОД) -->
     <div class="section-header" id="updates" data-aos="fade-right">ПОСЛЕДНИЕ СОБЫТИЯ</div>
     <div class="news-grid">
         <div class="news-card" data-aos="fade-up">
@@ -147,13 +147,12 @@
         </div>
     </div>
 
-    <!-- ЖИТЕЛИ (ИЗ ТАБЛИЦЫ) -->
+    <!-- НОВАЯ СЕКЦИЯ ЖИТЕЛИ -->
     <div class="section-header" id="players" data-aos="fade-right">ЖИТЕЛИ СЕРВЕРА</div>
     <div id="profiles-container" class="profiles-grid">
-        <p style="padding:20px; color:#444;">Загрузка списка игроков...</p>
+        <p style="padding:20px; color:#444;">Синхронизация списка...</p>
     </div>
 
-    <!-- РЫНОК (ИЗ ТАБЛИЦЫ) -->
     <div class="section-header" id="market" data-aos="fade-right">РЫНОК И ОБЪЯВЛЕНИЯ</div>
     <div id="board-container" class="news-grid">
         <div class="news-card"><p>Загрузка объявлений...</p></div>
@@ -162,8 +161,13 @@
     <div class="section-header" id="plugins" data-aos="fade-right">БИБЛИОТЕКА ПЛАГИНОВ</div>
     <div class="plugins-container" data-aos="fade-up">
         <div class="plugin-card"><div class="p-info"><h3>Plasmo Voice</h3><p>Голосовой чат для общения в игре.</p></div><a href="https://plasmovoice.com/" target="_blank" class="btn-plugin">Скачать</a></div>
+        <div class="plugin-card"><div class="p-info"><h3>Enchantment List</h3><p>Список кастомных чар.</p></div><a href="https://nightexpressdev.com/excellentenchants/enchantments/list/" target="_blank" class="btn-plugin">Список</a></div>
         <div class="plugin-card"><div class="p-info"><h3>GSit</h3><p>Команды <code>/sit</code>, <code>/lay</code>, <code>/crawl</code>.</p></div><a href="https://modrinth.com/plugin/gsit" target="_blank" class="btn-plugin">Скачать</a></div>
+        <div class="plugin-card"><div class="p-info"><h3>CoreProtect</h3><p>Проверка логов <code>/co i</code>.</p></div><a href="https://docs.coreprotect.net/commands/" target="_blank" class="btn-plugin">Инфо</a></div>
         <div class="plugin-card"><div class="p-info"><h3>PatPat</h3><p>Погладить: <code>Shift+ПКМ</code> на игрока.</p></div><a href="https://modrinth.com/plugin/patpat" target="_blank" class="btn-plugin">Скачать</a></div>
+        <div class="plugin-card"><div class="p-info"><h3>LightMaker</h3><p>Крафт блока света.</p></div><a href="https://modrinth.com/plugin/lightmaker" target="_blank" class="btn-plugin">Скачать</a></div>
+        <div class="plugin-card"><div class="p-info"><h3>InvisibleFrames</h3><p>Невидимые рамки.</p></div><a href="https://modrinth.com/resourcepack/invisible-item-frames" target="_blank" class="btn-plugin">Скачать</a></div>
+        <div class="plugin-card"><div class="p-info"><h3>SkinRestorer</h3><p>Смена скина: <code>/skin [Ник]</code>.</p></div><a href="https://skinsrestorer.net/docs" target="_blank" class="btn-plugin">Инфо</a></div>
     </div>
 
     <div class="section-header" id="protocol" data-aos="fade-right">ПРОТОКОЛ ПОВЕДЕНИЯ</div>
@@ -173,6 +177,8 @@
             <div class="r-item" onclick="load('game', this)">ИГРОВОЙ МИР</div>
             <div class="r-item" onclick="load('chat', this)">ОБЩЕНИЕ</div>
             <div class="r-item" onclick="load('terr', this)">ТЕРРИТОРИИ</div>
+            <div class="r-item" onclick="load('acc', this)">АККАУНТЫ</div>
+            <div class="r-item" onclick="load('mods', this)">МОДИФИКАЦИИ</div>
         </div>
         <div class="rules-body" id="rules-target"></div>
     </div>
@@ -184,60 +190,70 @@
 <script>
     AOS.init({ duration: 1000, once: true });
 
-    // --- НАСТРОЙКИ ТАБЛИЦЫ ---
-    // Важно: gid=0 это первая вкладка (Рынок), gid=1534015694 это вторая (Профили)
-    const MARKET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTEfE3IRzGzlfhaGj2ea2xEgZM0vgdJJyPvt-lE2LnB-7ruVHo31_0M7BjfFxees5V3Ej8ohi-u58tG/pub?gid=0&output=csv';
-    const PROFILES_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTEfE3IRzGzlfhaGj2ea2xEgZM0vgdJJyPvt-lE2LnB-7ruVHo31_0M7BjfFxees5V3Ej8ohi-u58tG/pub?gid=1534015694&output=csv';
+    // --- ЛОГИКА ЗАГРУЗКИ (CSV) ---
+    // gid=0 - Объявления, gid=1534015694 - Жители
+    const URL_MARKET = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTEfE3IRzGzlfhaGj2ea2xEgZM0vgdJJyPvt-lE2LnB-7ruVHo31_0M7BjfFxees5V3Ej8ohi-u58tG/pub?gid=0&output=csv';
+    const URL_PLAYERS = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTEfE3IRzGzlfhaGj2ea2xEgZM0vgdJJyPvt-lE2LnB-7ruVHo31_0M7BjfFxees5V3Ej8ohi-u58tG/pub?gid=1534015694&output=csv';
 
-    async function loadTableData(url, containerId, type) {
+    async function fetchData(url, containerId, isProfiles = false) {
         try {
             const response = await fetch(url);
             const data = await response.text();
             const rows = data.split('\n').map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
             const container = document.getElementById(containerId);
             container.innerHTML = '';
+            let count = 0;
             const clean = (val) => val ? val.replace(/^"|"$/g, '').trim() : "";
 
             for (let i = 1; i < rows.length; i++) {
                 const r = rows[i];
                 if (!r || r.length < 2) continue;
 
-                if (type === 'market') {
+                if (isProfiles) {
+                    // Логика для жителей
+                    const nick = clean(r[0]);
+                    const date = clean(r[1]);
+                    if(!nick) continue;
+                    count++;
+                    container.innerHTML += `
+                        <div class="profile-card" data-aos="zoom-in">
+                            <div class="p-avatar"><img src="https://mc-heads.net/avatar/${nick}/48"></div>
+                            <div class="p-nick">${nick}</div>
+                            <div class="p-date">С нами с ${date}</div>
+                        </div>`;
+                } else {
+                    // Логика для рынка
                     if (clean(r[5]).toLowerCase() === "одобрено") {
+                        count++;
                         container.innerHTML += `
                             <div class="news-card" data-aos="fade-up">
                                 <span>${clean(r[2])}</span>
                                 <h3>${clean(r[1])}</h3>
                                 <p>${clean(r[3])}</p>
-                                <div style="margin-top:10px; font-size:0.7rem; border-top:1px solid var(--border); padding-top:8px;">
+                                <div style="margin-top:15px; font-size:0.75rem; border-top:1px solid var(--border); padding-top:10px;">
                                     Контакт: <b>${clean(r[4])}</b>
                                 </div>
                             </div>`;
                     }
-                } else if (type === 'profiles') {
-                    const nick = clean(r[0]);
-                    container.innerHTML += `
-                        <div class="profile-card" data-aos="zoom-in">
-                            <div class="p-avatar"><img src="https://mc-heads.net/avatar/${nick}/48"></div>
-                            <div class="p-nick">${nick}</div>
-                            <div class="p-date">В игре с ${clean(r[1])}</div>
-                        </div>`;
                 }
             }
+            if (count === 0) container.innerHTML = '<p style="padding:20px; opacity:0.5;">Тут пока пусто...</p>';
         } catch (e) {
-            document.getElementById(containerId).innerHTML = '<p>Ошибка загрузки данных.</p>';
+            document.getElementById(containerId).innerHTML = '<p>Ошибка загрузки.</p>';
         }
     }
 
-    loadTableData(MARKET_URL, 'board-container', 'market');
-    loadTableData(PROFILES_URL, 'profiles-container', 'profiles');
+    fetchData(URL_MARKET, 'board-container');
+    fetchData(URL_PLAYERS, 'profiles-container', true);
 
-    // --- ПРАВИЛА ---
+    // --- ПРАВИЛА (ВОЗВРАЩЕНО ВСЕ) ---
     const RULES_DATA = {
-        main: { h: "Основные правила", b: [{ i: "1.0", t: "Доступ с <b>15 лет</b>." }, { i: "1.1", t: "Согласие обязательно." }] },
-        game: { h: "Игровой мир", b: [{ i: "2.1", t: "PvP по согласию." }, { i: "2.2", t: "Гриферство запрещено." }] },
-        chat: { h: "Общение", b: [{ i: "3.1", t: "Без спама." }] },
-        terr: { h: "Территории", b: [{ i: "4.1", t: "Лимит 500x500." }] }
+        main: { h: "Основные правила", b: [{ i: "1.0", t: "Доступ с <b>15 лет</b>." }, { i: "1.1", t: "Согласие с правилами обязательно." }, { i: "1.3", t: "Незнание не освобождает от ответственности." }] },
+        game: { h: "Игровой мир", b: [{ i: "2.1", t: "PvP по согласию." }, { i: "2.2", t: "Штраф за кражу (x10-15)." }, { i: "2.3", t: "Гриферство запрещено." }] },
+        chat: { h: "Общение", b: [{ i: "3.1", t: "Без спама." }, { i: "3.2", t: "Оскорбление админов — бан." }, { i: "3.5", t: "Код: <b>фембой</b>." }] },
+        terr: { h: "Территории", b: [{ i: "4.1", t: "Лимит 500x500." }, { i: "4.3", t: "Без лаг-машин." }] },
+        acc: { h: "Аккаунты", b: [{ i: "5.1", t: "Без продажи за реал." }, { i: "5.2", t: "Без твинков." }] },
+        mods: { h: "Моды", b: [{ i: "6.1", t: "Без читов." }, { i: "6.3", t: "Технические моды разрешены." }] }
     };
 
     function load(k, el) {
