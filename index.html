@@ -59,9 +59,9 @@
         .section-header { margin: 100px 0 40px; font-family: var(--font-head); font-size: 1.8rem; letter-spacing: -1px; display: flex; align-items: center; gap: 20px; }
         .section-header::after { content: ''; flex-grow: 1; height: 1px; background: var(--border); }
 
-        /* --- CARDS (NEWS & BOARD) --- */
+        /* --- CARDS --- */
         .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .news-card { background: var(--glass); border: 1px solid var(--border); border-radius: 25px; padding: 35px; backdrop-filter: blur(5px); }
+        .news-card { background: var(--glass); border: 1px solid var(--border); border-radius: 25px; padding: 35px; backdrop-filter: blur(5px); position: relative; }
         .news-card span { font-family: 'JetBrains Mono'; color: #444; font-size: 0.7rem; display: block; margin-bottom: 10px; }
 
         /* --- PLUGINS --- */
@@ -148,7 +148,7 @@
 
     <div class="section-header" id="players" data-aos="fade-right">ЖИТЕЛИ СЕРВЕРА</div>
     <div id="profiles-container" class="players-grid">
-        <div class="p-card"><p>Загрузка жителей...</p></div>
+        <div class="p-card"><p>Синхронизация с базой...</p></div>
     </div>
 
     <div class="section-header" id="market" data-aos="fade-right">РЫНОК И ОБЪЯВЛЕНИЯ</div>
@@ -156,6 +156,7 @@
         <div class="news-card"><p>Загрузка объявлений...</p></div>
     </div>
 
+    <!-- Список плагинов оставлен без изменений -->
     <div class="section-header" id="plugins" data-aos="fade-right">БИБЛИОТЕКА ПЛАГИНОВ</div>
     <div class="plugins-container" data-aos="fade-up">
         <div class="plugin-card"><div class="p-info"><h3>Plasmo Voice</h3><p>Голосовой чат для общения в игре.</p></div><a href="https://plasmovoice.com/" target="_blank" class="btn-plugin">Скачать</a></div>
@@ -188,7 +189,7 @@
 <script>
     AOS.init({ duration: 1000, once: true });
 
-    // ССЫЛКИ НА ВКЛАДКИ ТАБЛИЦЫ
+    // ССЫЛКИ НА ТВОИ ВКЛАДКИ
     const URL_PROFILES = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTEfE3IRzGzlfhaGj2ea2xEgZM0vgdJJyPvt-lE2LnB-7ruVHo31_0M7BjfFxees5V3Ej8ohi-u58tG/pub?gid=1924822211&single=true&output=csv';
     const URL_MARKET = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTEfE3IRzGzlfhaGj2ea2xEgZM0vgdJJyPvt-lE2LnB-7ruVHo31_0M7BjfFxees5V3Ej8ohi-u58tG/pub?gid=0&single=true&output=csv';
 
@@ -200,8 +201,16 @@
     async function fetchData(url, targetId, isProfile) {
         const container = document.getElementById(targetId);
         try {
-            const response = await fetch(url + `&t=${Date.now()}`, { cache: "no-store" });
+            // АНТИ-КЭШ: Добавляем случайное число к запросу, чтобы Google всегда отдавал свежий файл
+            const antiCacheUrl = url + `&nocache=${Math.random()}`;
+            
+            const response = await fetch(antiCacheUrl, { 
+                cache: "no-store",
+                headers: { 'Pragma': 'no-cache', 'Cache-Control': 'no-cache' }
+            });
+
             const data = await response.text();
+            // Улучшенный парсинг CSV
             const rows = data.split(/\r?\n/).filter(l => l.trim() !== "").map(row => row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
             
             container.innerHTML = ''; 
@@ -209,13 +218,16 @@
 
             for (let i = 1; i < rows.length; i++) {
                 const row = rows[i].map(val => val ? val.replace(/^"|"$/g, '').trim() : "");
+                
+                // Индексы статуса: 2 для профилей, 5 для рынка
                 const statusIdx = isProfile ? 2 : 5;
                 const status = (row[statusIdx] || "").toLowerCase();
 
-                if (status === "одобрено") { 
+                // Строгая проверка статуса "Одобрено"
+                if (status.includes("одобрено")) { 
                     count++;
                     if (isProfile) {
-                        const nick = row[0];
+                        const nick = row[0]; // Никнейм
                         container.innerHTML += `
                             <div class="p-card" data-aos="zoom-in">
                                 <img src="https://mc-heads.net/avatar/${nick}/64" class="p-avatar">
@@ -235,12 +247,18 @@
                     }
                 }
             }
-            if (count === 0) container.innerHTML = '<p style="opacity:0.3; padding:20px;">Пока пусто...</p>';
+            if (count === 0) container.innerHTML = '<p style="opacity:0.3; padding:20px;">Пока пусто или записи на проверке...</p>';
         } catch (e) {
-            container.innerHTML = '<p style="color:red;">Ошибка загрузки</p>';
+            console.error("Fetch error:", e);
+            container.innerHTML = '<p style="color:red;">Ошибка синхронизации данных</p>';
         }
     }
+
+    // Первичная загрузка
     loadAllData();
+    
+    // Автообновление каждые 3 минуты для живого сайта
+    setInterval(loadAllData, 180000);
 
     // --- ПРАВИЛА ---
     const RULES_DATA = {
@@ -271,6 +289,7 @@
         }
     }
 
+    // Фоновые частицы
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     let pts = [];
