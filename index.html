@@ -124,13 +124,11 @@
         </div>
     </div>
 
-    <!-- ЖИТЕЛИ (ЛИСТ ПРОФИЛИ) -->
     <div class="section-header" id="players">ЖИТЕЛИ СЕРВЕРА</div>
     <div id="profiles-container" class="profiles-grid">
         <p style="padding:20px; color:#444;">Загрузка списка игроков...</p>
     </div>
 
-    <!-- ОБЪЯВЛЕНИЯ (ЛИСТ1) -->
     <div class="section-header" id="market">РЫНОК И ОБЪЯВЛЕНИЯ</div>
     <div id="board-container" class="news-grid">
         <p style="padding:20px; color:#444;">Загрузка рынка...</p>
@@ -168,9 +166,7 @@
     const PROFILES_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTEfE3IRzGzlfhaGj2ea2xEgZM0vgdJJyPvt-lE2LnB-7ruVHo31_0M7BjfFxees5V3Ej8ohi-u58tG/pub?gid=1924822211&single=true&output=csv' + cacheBuster;
 
     async function loadSheetsData() {
-        // Загрузка жителей
         await fetchData(PROFILES_URL, 'profiles-container', true);
-        // Загрузка рынка
         await fetchData(MARKET_URL, 'board-container', false);
     }
 
@@ -218,7 +214,6 @@
         }
     }
 
-    // --- ПРАВИЛА ---
     const RULES = {
         main: { h: "Основные правила", b: ["1.0 Доступ с 15 лет.", "1.1 Соблюдение правил обязательно.", "1.2 Администрация всегда права."] },
         game: { h: "Игровой мир", b: ["2.1 Гриферство запрещено.", "2.2 PvP только по согласию.", "2.3 Воровство наказывается баном."] },
@@ -231,7 +226,7 @@
         el.classList.add('active');
         const data = RULES[k];
         let html = `<h2>${data.h}</h2>`;
-        data.b.forEach(txt => { html += `<div class="rule-block">${txt}</div>`; });
+        data.b.forEach(txt => { html += `<div class="rule-block"><i>CODE: ${Math.random().toString(36).substr(2, 5)}</i>${txt}</div>`; });
         document.getElementById('rules-target').innerHTML = html;
     }
 
@@ -240,12 +235,11 @@
 
     function copyIP() {
         const btn = document.querySelector('.ip-copy');
-        navigator.clipboard.writeText("play.voidplus.smp"); // Замени на свой IP
+        navigator.clipboard.writeText("play.voidplus.smp");
         btn.innerText = "COPIED!";
         setTimeout(() => { btn.innerText = "COPY IP"; }, 2000);
     }
 
-    // --- ФОН ---
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     let pts = [];
