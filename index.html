@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Void+ | Official SMP Portal</title>
+    <title>Void+ | Official Portal</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@200;400;900&family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@300;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -24,80 +24,64 @@
         body {
             margin: 0; background: radial-gradient(circle at center, var(--bg-shimmer) 0%, var(--bg-deep) 100%);
             color: #fff; font-family: var(--font-main); overflow-x: hidden;
-            padding-top: 120px;
+            padding-top: 100px;
         }
 
-        #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.8; }
-        .vignette { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.7) 100%); z-index: -1; pointer-events: none; }
+        #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.6; }
+        .vignette { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.8) 100%); z-index: -1; pointer-events: none; }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 30px; position: relative; z-index: 10; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 10; }
 
-        /* --- NAV --- */
         nav {
-            position: fixed; top: 0; left: 0; width: 100%; padding: 25px 0;
-            z-index: 1000; backdrop-filter: blur(25px); border-bottom: 1px solid var(--border);
-            background: rgba(0,0,0,0.7);
+            position: fixed; top: 0; left: 0; width: 100%; padding: 20px 0;
+            z-index: 1000; backdrop-filter: blur(20px); border-bottom: 1px solid var(--border);
+            background: rgba(0,0,0,0.8);
         }
         .nav-flex { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-family: var(--font-head); font-weight: 900; font-size: 1.5rem; color: #fff; text-decoration: none; }
-        .nav-links a { text-decoration: none; color: #666; font-size: 0.7rem; font-weight: 800; margin-left: 25px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
+        .logo { font-family: var(--font-head); font-weight: 900; font-size: 1.4rem; color: #fff; text-decoration: none; }
+        .nav-links a { text-decoration: none; color: #555; font-size: 0.65rem; font-weight: 800; margin-left: 20px; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
         .nav-links a:hover { color: #fff; }
 
         /* --- HERO --- */
-        .hero { min-height: 60vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        .hero h1 { font-family: var(--font-head); font-size: clamp(3rem, 12vw, 9rem); margin: 0; font-weight: 900; letter-spacing: -4px; line-height: 1; }
-        .hero-sub { color: #444; font-family: var(--font-head); letter-spacing: 8px; font-size: 0.8rem; margin-top: 20px; text-transform: uppercase; }
+        .hero { min-height: 50vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; margin-bottom: 50px; }
+        .hero h1 { font-family: var(--font-head); font-size: clamp(3rem, 10vw, 7rem); margin: 0; font-weight: 900; letter-spacing: -3px; }
+        
+        .ip-wrap { margin-top: 30px; background: var(--glass); border: 1px solid var(--border); padding: 6px; border-radius: 100px; display: flex; align-items: center; cursor: pointer; transition: 0.4s; backdrop-filter: blur(10px); }
+        .ip-wrap:hover { border-color: #fff; }
+        .ip-val { padding: 0 30px; font-family: var(--font-head); font-weight: 700; font-size: 0.9rem; }
+        .ip-copy { background: #fff; color: #000; padding: 12px 25px; border-radius: 100px; font-weight: 900; font-size: 0.6rem; }
 
-        .ip-wrap { margin-top: 50px; background: var(--glass); border: 1px solid var(--border); padding: 8px; border-radius: 100px; display: flex; align-items: center; cursor: pointer; transition: 0.4s; backdrop-filter: blur(5px); }
-        .ip-wrap:hover { border-color: #fff; transform: scale(1.02); }
-        .ip-val { padding: 0 35px; font-family: var(--font-head); font-weight: 700; font-size: 1rem; }
-        .ip-copy { background: #fff; color: #000; padding: 15px 30px; border-radius: 100px; font-weight: 900; font-size: 0.7rem; }
-
-        .links-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 40px; width: 100%; max-width: 900px; }
-        .l-box { background: var(--glass); border: 1px solid var(--border); padding: 22px; border-radius: 18px; text-decoration: none; color: #fff; transition: 0.3s; display: flex; align-items: center; gap: 15px; font-size: 0.8rem; font-weight: 700; backdrop-filter: blur(5px); justify-content: center; }
-        .l-box:hover { background: #fff; color: #000; }
-
-        .section-header { margin: 100px 0 40px; font-family: var(--font-head); font-size: 1.8rem; letter-spacing: -1px; display: flex; align-items: center; gap: 20px; }
+        .section-header { margin: 80px 0 30px; font-family: var(--font-head); font-size: 1.5rem; letter-spacing: -1px; display: flex; align-items: center; gap: 20px; }
         .section-header::after { content: ''; flex-grow: 1; height: 1px; background: var(--border); }
 
-        /* --- CARDS --- */
+        /* --- GRIDS --- */
         .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .news-card { background: var(--glass); border: 1px solid var(--border); border-radius: 25px; padding: 35px; backdrop-filter: blur(5px); transition: 0.3s; }
-        .news-card:hover { border-color: rgba(255,255,255,0.2); }
-        .news-card span { font-family: 'JetBrains Mono'; color: #444; font-size: 0.7rem; display: block; margin-bottom: 10px; }
+        .card { background: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 30px; backdrop-filter: blur(10px); transition: 0.3s; }
+        .card:hover { border-color: rgba(255,255,255,0.2); transform: translateY(-5px); }
+        .card span { font-family: 'JetBrains Mono'; color: #444; font-size: 0.65rem; display: block; margin-bottom: 10px; }
+        .card h3 { margin: 0 0 10px; font-size: 1.2rem; font-family: var(--font-head); }
+        .card p { margin: 0; color: #888; font-size: 0.9rem; line-height: 1.5; }
 
         /* --- PROFILES --- */
-        .profiles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-        .profile-card { background: var(--glass); border: 1px solid var(--border); border-radius: 25px; padding: 30px; text-align: center; backdrop-filter: blur(10px); transition: 0.4s; }
-        .profile-card:hover { transform: translateY(-10px); border-color: #fff; }
-        .p-avatar { width: 80px; height: 80px; margin: 0 auto 20px; background: rgba(255,255,255,0.03); border-radius: 20px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); }
-        .p-avatar img { width: 64px; height: 64px; image-rendering: pixelated; }
-        .p-nick { font-family: var(--font-head); font-size: 1.1rem; font-weight: 700; margin-bottom: 5px; }
-        .p-status { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); font-weight: 800; }
+        .profiles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
+        .profile-card { background: var(--glass); border: 1px solid var(--border); border-radius: 20px; padding: 25px; text-align: center; transition: 0.4s; }
+        .profile-card:hover { border-color: #fff; background: rgba(255,255,255,0.03); }
+        .p-avatar { width: 70px; height: 70px; margin: 0 auto 15px; background: #000; border-radius: 15px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); }
+        .p-avatar img { width: 50px; height: 50px; image-rendering: pixelated; }
+        .p-nick { font-family: var(--font-head); font-size: 1rem; font-weight: 700; }
+        .p-status { font-size: 0.55rem; text-transform: uppercase; color: var(--accent); margin-top: 5px; font-weight: 800; letter-spacing: 1px; }
 
-        /* --- PLUGINS --- */
-        .plugins-container { background: var(--glass); border: 1px solid var(--border); border-radius: 40px; padding: 40px; backdrop-filter: blur(10px); }
-        .plugin-card { 
-            background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 25px; 
-            padding: 30px; display: flex; justify-content: space-between; align-items: center; transition: 0.4s; margin-bottom: 20px;
-        }
-        .plugin-card:hover { border-color: #fff; background: rgba(255,255,255,0.04); transform: translateX(10px); }
-        .p-info h3 { margin: 0 0 10px; font-family: var(--font-head); font-size: 1.1rem; color: #fff; }
-        .p-info p { margin: 0; color: #777; font-size: 0.85rem; line-height: 1.6; max-width: 750px; }
-        .btn-plugin { text-decoration: none; color: #000; background: #fff; padding: 12px 25px; border-radius: 12px; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; white-space: nowrap; }
-
-        /* --- RULES UI --- */
-        .rules-ui { background: var(--glass); border: 1px solid var(--border); border-radius: 35px; display: grid; grid-template-columns: 300px 1fr; min-height: 600px; overflow: hidden; margin-bottom: 100px; backdrop-filter: blur(10px); }
-        .rules-sidebar { border-right: 1px solid var(--border); padding: 30px; background: rgba(0,0,0,0.3); }
-        .r-item { padding: 18px; border-radius: 12px; cursor: pointer; color: #444; font-weight: 800; transition: 0.3s; margin-bottom: 8px; font-size: 0.75rem; font-family: var(--font-head); }
+        /* --- RULES --- */
+        .rules-ui { background: var(--glass); border: 1px solid var(--border); border-radius: 25px; display: grid; grid-template-columns: 250px 1fr; min-height: 500px; overflow: hidden; margin-bottom: 80px; }
+        .rules-sidebar { border-right: 1px solid var(--border); padding: 20px; background: rgba(0,0,0,0.2); }
+        .r-item { padding: 15px; border-radius: 10px; cursor: pointer; color: #444; font-weight: 800; transition: 0.3s; font-size: 0.7rem; font-family: var(--font-head); }
         .r-item.active { background: #fff; color: #000; }
-        .rules-body { padding: 50px; height: 600px; overflow-y: auto; }
-        .rule-block { background: rgba(255,255,255,0.01); border: 1px solid var(--border); border-radius: 15px; padding: 25px; margin-bottom: 15px; line-height: 1.7; color: #ccc; }
-        .rule-block i { font-family: 'JetBrains Mono'; color: #555; font-size: 0.7rem; display: block; margin-bottom: 8px; font-style: normal; }
+        .rules-body { padding: 40px; }
+        .rule-block { background: rgba(255,255,255,0.01); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 10px; font-size: 0.9rem; color: #ccc; }
 
-        footer { padding: 80px 0; text-align: center; border-top: 1px solid var(--border); opacity: 0.2; font-size: 0.6rem; letter-spacing: 4px; }
+        footer { padding: 60px 0; text-align: center; border-top: 1px solid var(--border); opacity: 0.3; font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase; }
 
-        @media (max-width: 900px) { .rules-ui { grid-template-columns: 1fr; } .rules-sidebar { display: flex; overflow-x: auto; padding: 15px; } .links-grid { grid-template-columns: 1fr; } .plugin-card { flex-direction: column; align-items: flex-start; gap: 20px; } }
+        @media (max-width: 800px) { .rules-ui { grid-template-columns: 1fr; } .rules-sidebar { display: flex; overflow-x: auto; } }
     </style>
 </head>
 <body>
@@ -109,10 +93,10 @@
     <div class="container nav-flex">
         <a href="#" class="logo">VOID+</a>
         <div class="nav-links">
-            <a href="#updates">Новости</a>
+            <a href="#news">Новости</a>
             <a href="#players">Жители</a>
             <a href="#market">Рынок</a>
-            <a href="#protocol">Правила</a>
+            <a href="#rules">Правила</a>
         </div>
     </div>
 </nav>
@@ -120,130 +104,136 @@
 <div class="container">
     <section class="hero">
         <h1 data-aos="fade-up">VOID+</h1>
-        <div class="hero-sub" data-aos="fade-up" data-aos-delay="100">Vanilla Server Minecraft</div>
-        
-        <div class="ip-wrap" onclick="copyIP()" data-aos="zoom-in" data-aos-delay="200">
-            <div class="ip-val" id="ip-text">Coming soon...</div>
-            <div class="ip-copy">COPY IP</div>
-        </div>
-
-        <div class="links-grid" data-aos="fade-up" data-aos-delay="300">
-            <a href="https://discord.gg/kafGXsKnBD" target="_blank" class="l-box"><i class="fab fa-discord"></i> Discord</a>
-            <a href="https://t.me/VoidVanilaSMP" target="_blank" class="l-box"><i class="fab fa-telegram"></i> Telegram</a>
-            <a href="#plugins" class="l-box"><i class="fas fa-plug"></i> Plugins</a>
+        <div class="ip-wrap" onclick="copyIP()" data-aos="zoom-in">
+            <div class="ip-val" id="ip-text">mc.voidplus.example</div>
+            <div class="ip-copy">COPY</div>
         </div>
     </section>
 
-    <!-- СЕКЦИЯ ПРОФИЛЕЙ -->
+    <!-- НОВОСТИ -->
+    <div class="section-header" id="news" data-aos="fade-right">ПОСЛЕДНИЕ СОБЫТИЯ</div>
+    <div id="news-container" class="news-grid">
+        <div class="card"><span>SYSTEM</span><h3>Загрузка...</h3></div>
+    </div>
+
+    <!-- ЖИТЕЛИ -->
     <div class="section-header" id="players" data-aos="fade-right">ЖИТЕЛИ СЕРВЕРА</div>
     <div id="profiles-container" class="profiles-grid">
-        <div class="news-card"><p>Загрузка игроков...</p></div>
+        <p style="padding: 20px; color: #444;">Ищем записи в базе данных...</p>
     </div>
 
-    <!-- СЕКЦИЯ РЫНКА -->
+    <!-- РЫНОК -->
     <div class="section-header" id="market" data-aos="fade-right">ТОРГОВАЯ ПЛОЩАДКА</div>
-    <div id="board-container" class="news-grid">
-        <div class="news-card"><p>Загрузка объявлений...</p></div>
+    <div id="market-container" class="news-grid">
+        <p style="padding: 20px; color: #444;">Загрузка актуальных предложений...</p>
     </div>
 
-    <!-- ПРАВИЛА И ПЛАГИНЫ (Оставил старые для структуры) -->
-    <div class="section-header" id="protocol" data-aos="fade-right">ПРОТОКОЛ ПОВЕДЕНИЯ</div>
+    <!-- ПРАВИЛА -->
+    <div class="section-header" id="rules" data-aos="fade-right">ПРОТОКОЛ ПОВЕДЕНИЯ</div>
     <div class="rules-ui" data-aos="fade-up">
         <div class="rules-sidebar">
-            <div class="r-item active" onclick="load('main', this)">ОСНОВНЫЕ</div>
-            <div class="r-item" onclick="load('game', this)">ИГРОВОЙ МИР</div>
-            <div class="r-item" onclick="load('chat', this)">ОБЩЕНИЕ</div>
+            <div class="r-item active" onclick="loadRule('main', this)">ОСНОВНЫЕ</div>
+            <div class="r-item" onclick="loadRule('game', this)">ИГРОВОЙ МИР</div>
+            <div class="r-item" onclick="loadRule('chat', this)">ОБЩЕНИЕ</div>
         </div>
         <div class="rules-body" id="rules-target"></div>
     </div>
 
-    <footer>&copy; 2026 VOID+ SMP • BY YURIY BOBOKALO</footer>
+    <footer>&copy; 2026 VOID+ SMP • Official Portal</footer>
 </div>
 
 <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 <script>
-    AOS.init({ duration: 1000, once: true });
+    AOS.init({ duration: 800, once: true });
 
-    // ССЫЛКИ НА ТВОИ CSV (Опубликуй вкладки отдельно в Google Sheets!)
+    // ССЫЛКИ НА ТВОИ CSV (Замени на свои из "Публикация в интернете")
+    const NEWS_CSV = 'ССЫЛКА_НА_ЛИСТ_НОВОСТИ_CSV';
     const MARKET_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTEfE3IRzGzlfhaGj2ea2xEgZM0vgdJJyPvt-lE2LnB-7ruVHo31_0M7BjfFxees5V3Ej8ohi-u58tG/pub?gid=0&output=csv';
     const PROFILES_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTEfE3IRzGzlfhaGj2ea2xEgZM0vgdJJyPvt-lE2LnB-7ruVHo31_0M7BjfFxees5V3Ej8ohi-u58tG/pub?gid=1534015694&output=csv';
 
-    async function fetchData(url, containerId, type) {
+    async function loadData(url, containerId, type) {
+        const container = document.getElementById(containerId);
         try {
             const res = await fetch(url);
+            if (!res.ok) throw new Error();
             const text = await res.text();
             const rows = text.split('\n').map(r => r.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/));
-            const container = document.getElementById(containerId);
+            
             container.innerHTML = '';
-
             const clean = (v) => v ? v.replace(/^"|"$/g, '').trim() : "";
 
             for (let i = 1; i < rows.length; i++) {
                 const r = rows[i];
                 if (!r || r.length < 2) continue;
 
-                if (type === 'market') {
-                    const status = clean(r[5]).toLowerCase();
-                    if (status === "одобрено") {
-                        container.innerHTML += `
-                            <div class="news-card" data-aos="fade-up">
-                                <span>${clean(r[2])}</span>
-                                <h3>${clean(r[1])}</h3>
-                                <p>${clean(r[3])}</p>
-                                <div style="margin-top:15px; font-size:0.75rem; border-top:1px solid var(--border); padding-top:10px;">
-                                    Контакт: <b>${clean(r[4])}</b>
-                                </div>
-                            </div>`;
-                    }
-                } else if (type === 'profiles') {
+                if (type === 'news') {
+                    container.innerHTML += `<div class="card" data-aos="fade-up"><span>${clean(r[0])}</span><h3>${clean(r[1])}</h3><p>${clean(r[2])}</p></div>`;
+                } 
+                else if (type === 'market' && clean(r[5]).toLowerCase() === "одобрено") {
+                    container.innerHTML += `<div class="card" data-aos="fade-up"><span>${clean(r[2])}</span><h3>${clean(r[1])}</h3><p>${clean(r[3])}</p><br><small>Связь: ${clean(r[4])}</small></div>`;
+                } 
+                else if (type === 'profiles') {
                     const nick = clean(r[0]);
                     container.innerHTML += `
                         <div class="profile-card" data-aos="zoom-in">
-                            <div class="p-avatar"><img src="https://mc-heads.net/avatar/${nick}/64" alt="head"></div>
+                            <div class="p-avatar"><img src="https://mc-heads.net/avatar/${nick}/64"></div>
                             <div class="p-nick">${nick}</div>
                             <div class="p-status">${clean(r[2])}</div>
                         </div>`;
                 }
             }
-        } catch (e) { console.error(e); }
-    }
-
-    // Загрузка данных
-    fetchData(MARKET_CSV, 'board-container', 'market');
-    fetchData(PROFILES_CSV, 'profiles-container', 'profiles');
-
-    // Логика правил и фона (оставил как в твоем исходнике)
-    const RULES_DATA = {
-        main: { h: "Основные правила", b: [{ i: "1.0", t: "Доступ с <b>15 лет</b>." }, { i: "1.1", t: "Согласие обязательно." }] },
-        game: { h: "Игровой мир", b: [{ i: "2.1", t: "PvP по согласию." }] },
-        chat: { h: "Общение", b: [{ i: "3.1", t: "Без спама." }] }
-    };
-
-    function load(k, el) {
-        document.querySelectorAll('.r-item').forEach(i => i.classList.remove('active'));
-        el.classList.add('active');
-        const g = RULES_DATA[k];
-        let h = `<h2>${g.h}</h2>`;
-        g.b.forEach(r => h += `<div class="rule-block"><i>${r.i}</i>${r.t}</div>`);
-        document.getElementById('rules-target').innerHTML = h;
-    }
-    load('main', document.querySelector('.r-item'));
-
-    function copyIP() {
-        const t = document.getElementById('ip-text');
-        if(t.innerText !== "Coming soon...") {
-            navigator.clipboard.writeText(t.innerText);
-            t.innerText = "COPIED!";
-            setTimeout(() => { t.innerText = "Coming soon..."; }, 2000);
+        } catch (e) {
+            container.innerHTML = `<p style="color:red; font-size:0.7rem;">Ошибка загрузки. Проверьте публикацию CSV.</p>`;
         }
     }
 
+    // Запуск
+    loadData(NEWS_CSV, 'news-container', 'news');
+    loadData(MARKET_CSV, 'market-container', 'market');
+    loadData(PROFILES_CSV, 'profiles-container', 'profiles');
+
+    // Правила
+    const RULES = {
+        main: { h: "Общие правила", b: ["Будьте вежливы.", "Гриферство запрещено.", "Читы = бан."] },
+        game: { h: "Мир", b: ["Не ломайте чужие постройки.", "Режьте деревья полностью."] },
+        chat: { h: "Чат", b: ["Без капса.", "Без оскорблений."] }
+    };
+
+    function loadRule(id, el) {
+        document.querySelectorAll('.r-item').forEach(i => i.classList.remove('active'));
+        el.classList.add('active');
+        const data = RULES[id];
+        let html = `<h3>${data.h}</h3>`;
+        data.b.forEach(txt => html += `<div class="rule-block">${txt}</div>`);
+        document.getElementById('rules-target').innerHTML = html;
+    }
+    loadRule('main', document.querySelector('.r-item'));
+
+    function copyIP() {
+        const btn = document.querySelector('.ip-copy');
+        navigator.clipboard.writeText("mc.voidplus.example");
+        btn.innerText = "COPIED";
+        setTimeout(() => btn.innerText = "COPY", 2000);
+    }
+
+    // Фон
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
-    let pts = [];
-    function rs() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; pts = []; for(let i=0;i<200;i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*0.8, v:Math.random()*0.5+0.1}); }
-    function dr() { ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle="rgba(255,255,255,0.8)"; pts.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();p.y-=p.v;if(p.y<0)p.y=canvas.height;}); requestAnimationFrame(dr); }
-    window.addEventListener('resize', rs); rs(); dr();
+    let dots = [];
+    function init() { 
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight; 
+        dots = Array.from({length: 150}, () => ({x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*1, v: Math.random()*0.3}));
+    }
+    function draw() {
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle = "white";
+        dots.forEach(d => {
+            ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI*2); ctx.fill();
+            d.y -= d.v; if(d.y < 0) d.y = canvas.height;
+        });
+        requestAnimationFrame(draw);
+    }
+    window.onresize = init; init(); draw();
 </script>
 </body>
 </html>
